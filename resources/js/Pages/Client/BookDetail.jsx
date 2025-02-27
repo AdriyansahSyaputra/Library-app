@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../../components/templates/client/Sidebar";
 import Topbar from "../../components/templates/client/Topbar";
-import BooksView from "../../components/Layouts/Home/BooksView";
+import BookDetail from "../../components/Layouts/BookDetail/BookDetail";
 
 const Home = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -21,8 +21,8 @@ const Home = () => {
                 >
                     <Topbar />
 
-                    <main className="p-6 max-w-screen-xl mx-auto">
-                        <BooksView />
+                    <main className="p-6 max-w-screen-xl flex md:my-16">
+                        <BookDetail />
                     </main>
                 </div>
             </div>

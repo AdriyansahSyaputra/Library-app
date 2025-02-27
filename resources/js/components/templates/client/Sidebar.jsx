@@ -1,47 +1,36 @@
 import React, { useState } from "react";
-import { Menu, Package, User, Percent, Send, Truck, CreditCard, ScrollText, Settings } from "lucide-react";
+import {
+    House,
+    BookText,
+    BookHeart,
+    Settings,
+    BookOpenText,
+    ChevronLeft,
+    ChevronRight,
+    LibraryBig,
+} from "lucide-react";
 import { Link } from "@inertiajs/react";
 
 const menuItems = [
     {
-        title: "Dashboard",
-        icon: <Menu className="w-5 h-5" />,
-        link: "/dashboard",
+        title: "Discover",
+        icon: <House className="w-5 h-5" />,
+        link: "/",
     },
     {
-        title: "Product",
-        icon: <Package className="w-5 h-5" />,
-        link: "/dashboard/products",
+        title: "Category",
+        icon: <BookText className="w-5 h-5" />,
+        link: "/dashboard/category",
     },
     {
-        title: "User",
-        icon: <User className="w-5 h-5" />,
-        link: "/dashboard/users",
+        title: "My Library",
+        icon: <BookOpenText className="w-5 h-5" />,
+        link: "/dashboard/my-library",
     },
     {
-        title: "Discount",
-        icon: <Percent className="w-5 h-5" />,
-        link: "/dashboard/discount",
-    },
-    {
-        title: "Order",
-        icon: <Send className="w-5 h-5" />,
-        link: "/dashboard/orders",
-    },
-    {
-        title: "Shipping",
-        icon: <Truck className="w-5 h-5" />,
-        link: "/dashboard/shipping",
-    },
-    {
-        title: "Payment",
-        icon: <CreditCard className="w-5 h-5" />,
-        link: "/dashboard/payment",
-    },
-    {
-        title: "Report & Analytics",
-        icon: <ScrollText className="w-5 h-5" />,
-        link: "/dashboard/reports",
+        title: "Favourite",
+        icon: <BookHeart className="w-5 h-5" />,
+        link: "/dashboard/favorite",
     },
     {
         title: "Settings",
@@ -50,18 +39,41 @@ const menuItems = [
     },
 ];
 
-const Sidebar = ({ isSidebarOpen }) => {
-    const [activeItem, setActiveItem] = useState("/dashboard");
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+    const [activeItem, setActiveItem] = useState("/");
 
     return (
         <>
-            <aside className={`w-60 bg-white h-screen border-r shadow-sm inset-y-0 fixed flex flex-col ${isSidebarOpen ? "w-60" : "w-20"} `}>
+            <aside
+                className={`bg-white h-screen border-r shadow-sm inset-y-0 fixed flex flex-col ${
+                    isSidebarOpen ? "w-60" : "w-20"
+                } `}
+            >
                 <div className="w-full flex items-center justify-between p-4 border-b">
-                    <div>
-                        <h2 className="text-lg font-semibold">Library Apps</h2>
-                    </div>
+                    {isSidebarOpen && (
+                        <h1 className="text-xl font-bold text-indigo-600">
+                            Library Apps
+                        </h1>
+                    )}
+                    {!isSidebarOpen && (
+                        <div className="mx-auto">
+                            <h1 className="text-xl font-bold text-indigo-600">
+                                <LibraryBig size={20} />
+                            </h1>
+                        </div>
+                    )}
 
-                    <Menu size={20} />
+                    {/* Tombol Chevron untuk buka/tutup sidebar */}
+                    <button
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                        className="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-all"
+                    >
+                        {isSidebarOpen ? (
+                            <ChevronLeft className="w-5 h-5" />
+                        ) : (
+                            <ChevronRight className="w-5 h-5" />
+                        )}
+                    </button>
                 </div>
 
                 {/* Menu */}
@@ -76,18 +88,18 @@ const Sidebar = ({ isSidebarOpen }) => {
                                     isSidebarOpen
                                         ? "justify-start"
                                         : "justify-center"
-                                } gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                                } gap-3 px-2 py-3 rounded-lg transition-all duration-200 ${
                                     activeItem === item.link
-                                        ? "bg-indigo-50 text-indigo-600"
-                                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                        ? "text-slate-800"
+                                        : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                                 }`}
                             >
                                 <div
-                                    className={
+                                    className={`p-2 rounded-lg ${
                                         activeItem === item.link
-                                            ? "text-indigo-600"
-                                            : "text-gray-500"
-                                    }
+                                            ? "bg-indigo-600 text-white"
+                                            : "bg-gray-100 text-gray-500"
+                                    }`}
                                 >
                                     {item.icon}
                                 </div>
@@ -96,8 +108,8 @@ const Sidebar = ({ isSidebarOpen }) => {
                                     <span
                                         className={`${
                                             activeItem === item.link
-                                                ? "font-medium"
-                                                : ""
+                                                ? "font-bold"
+                                                : "font-normal"
                                         }`}
                                     >
                                         {item.title}
