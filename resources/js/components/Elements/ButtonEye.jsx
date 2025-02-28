@@ -2,7 +2,7 @@ import React from "react";
 import { Eye, EyeOff } from "lucide-react";
 import PropTypes from "prop-types";
 
-const ButtonEye = ({  togglePasswordVisibility, showPassword, isDarkMode }) => {
+const ButtonEye = ({ togglePasswordVisibility, showPassword, isDarkMode }) => {
     return (
         <button
             type="button"

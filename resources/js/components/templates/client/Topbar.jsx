@@ -1,15 +1,30 @@
 import React, { useState, useRef } from "react";
-import { Search, Sun, Moon, Bell, User, Settings, LogOut, ChevronDown, ChevronUp } from "lucide-react";
+import {
+    Search,
+    Sun,
+    Moon,
+    Bell,
+    User,
+    Settings,
+    LogOut,
+    ChevronDown,
+    ChevronUp,
+} from "lucide-react";
 import ShowNotification from "./ShowNotification";
+import { router, usePage } from "@inertiajs/react";
 
 const Topbar = () => {
     const [darkMode, setDarkMode] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
-     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+    const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+    const { auth } = usePage().props;
 
     const notificationRef = useRef(null);
     const profileRef = useRef(null);
 
+    const handleLogout = () => {
+        router.post("logout");
+    };
     return (
         <>
             <header className="w-full h-16 bg-white shadow-sm flex items-center px-6 sticky top-0 z-10">
@@ -67,75 +82,77 @@ const Topbar = () => {
                 <div className="w-px h-8 bg-gray-200 mx-4 hidden md:block"></div>
 
                 {/* Profile Account */}
-                <div className="relative" ref={profileRef}>
-                    <button
-                        className="flex items-center gap-3 py-1 px-2 rounded-lg hover:bg-gray-50 transition-colors"
-                        onClick={() =>
-                            setShowProfileDropdown(!showProfileDropdown)
-                        }
-                    >
-                        <div className="w-8 h-8 rounded-full bg-indigo-100 overflow-hidden flex items-center justify-center">
-                            <img
-                                src="/api/placeholder/32/32"
-                                alt="John Doe"
-                                className="w-full h-full object-cover"
-                                loading="lazy"
-                            />
-                        </div>
-                        <div className="hidden md:block text-left">
-                            <p className="text-sm font-medium text-gray-700">
-                                John Doe
-                            </p>
-                            <p className="text-xs text-gray-500">
-                                Administrator
-                            </p>
-                        </div>
-                        {showProfileDropdown ? (
-                            <ChevronUp className="w-4 h-4 text-gray-500" />
-                        ) : (
-                            <ChevronDown className="w-4 h-4 text-gray-500" />
-                        )}
-                    </button>
-
-                    {showProfileDropdown && (
-                        <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 border border-gray-100">
-                            <div className="px-4 py-2 border-b border-gray-100 md:hidden">
+                {auth.user && (
+                    <div className="relative" ref={profileRef}>
+                        <button
+                            className="flex items-center gap-3 py-1 px-2 rounded-lg hover:bg-gray-50 transition-colors"
+                            onClick={() =>
+                                setShowProfileDropdown(!showProfileDropdown)
+                            }
+                        >
+                            <div className="w-8 h-8 rounded-full bg-indigo-100 overflow-hidden flex items-center justify-center">
+                                <img
+                                    src="/api/placeholder/32/32"
+                                    alt="John Doe"
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="hidden md:block text-left">
                                 <p className="text-sm font-medium text-gray-700">
-                                    John Doe
+                                    {auth.user.name}
                                 </p>
                                 <p className="text-xs text-gray-500">
-                                    Administrator
+                                    {auth.user.jurusan || auth.user.email}
                                 </p>
                             </div>
+                            {showProfileDropdown ? (
+                                <ChevronUp className="w-4 h-4 text-gray-500" />
+                            ) : (
+                                <ChevronDown className="w-4 h-4 text-gray-500" />
+                            )}
+                        </button>
 
-                            <a
-                                href="/profile"
-                                className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                            >
-                                <User className="w-4 h-4 text-gray-500" />
-                                <span>Profile</span>
-                            </a>
+                        {showProfileDropdown && (
+                            <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 border border-gray-100">
+                                <div className="px-4 py-2 border-b border-gray-100 md:hidden">
+                                    <p className="text-sm font-medium text-gray-700">
+                                        {auth.user.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        {auth.user.email}
+                                    </p>
+                                </div>
 
-                            <a
-                                href="/settings"
-                                className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                            >
-                                <Settings className="w-4 h-4 text-gray-500" />
-                                <span>Settings</span>
-                            </a>
+                                <a
+                                    href="/profile"
+                                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                >
+                                    <User className="w-4 h-4 text-gray-500" />
+                                    <span>Profile</span>
+                                </a>
 
-                            <div className="border-t border-gray-100 my-1"></div>
+                                <a
+                                    href="/settings"
+                                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                >
+                                    <Settings className="w-4 h-4 text-gray-500" />
+                                    <span>Settings</span>
+                                </a>
 
-                            <a
-                                href="/logout"
-                                className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                            >
-                                <LogOut className="w-4 h-4 text-red-500" />
-                                <span>Logout</span>
-                            </a>
-                        </div>
-                    )}
-                </div>
+                                <div className="border-t border-gray-100 my-1"></div>
+
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                                >
+                                    <LogOut className="w-4 h-4 text-red-500" />
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </header>
         </>
     );

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { MoreVertical, Edit, Trash } from "lucide-react";
 
-const BooksTable = ({ filteredBooks, isDarkMode, isDropdownOpen, toggleDropdown }) => {
+const BooksTable = ({ books, isDarkMode, isDropdownOpen, toggleDropdown }) => {
     return (
         <div
             className={`rounded-lg shadow-md overflow-hidden ${
@@ -38,7 +38,7 @@ const BooksTable = ({ filteredBooks, isDarkMode, isDropdownOpen, toggleDropdown 
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredBooks.map((book) => (
+                    {books.map((book) => (
                         <tr
                             key={book.id}
                             className={`${
@@ -49,26 +49,27 @@ const BooksTable = ({ filteredBooks, isDarkMode, isDropdownOpen, toggleDropdown 
                         >
                             <td className="px-6 py-4">
                                 <img
-                                    src={book.cover}
-                                    alt={book.title}
+                                    src={`/assets/img/cover/${book.gambar}`}
+                                    alt={book.judul}
                                     className="w-10 h-10 rounded"
                                 />
                             </td>
-                            <td className="px-6 py-4">{book.title}</td>
-                            <td className="px-6 py-4">{book.author}</td>
+                            <td className="px-6 py-4">{book.judul}</td>
+                            <td className="px-6 py-4">{book.penulis}</td>
                             <td className="px-6 py-4 max-w-xs">
-                                {book.description}
+                                {book.deskripsi}
                             </td>
-                            <td className="px-6 py-4">{book.publishedDate}</td>
+                            <td className="px-6 py-4">{book.tahun_terbit}</td>
                             <td className="px-6 py-4">
                                 <span
                                     className={`px-2 py-1 rounded-full text-sm ${
-                                        book.status === "Tersedia"
+                                        book.status === "tersedia"
                                             ? "bg-green-100 text-green-800"
                                             : "bg-red-100 text-red-800"
                                     }`}
                                 >
-                                    {book.status}
+                                    {book.status.charAt(0).toUpperCase() +
+                                        book.status.slice(1)}
                                 </span>
                             </td>
                             <td className="px-6 py-4 relative">

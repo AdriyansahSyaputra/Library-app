@@ -3,7 +3,7 @@ import Sidebar from "../../components/templates/client/Sidebar";
 import Topbar from "../../components/templates/client/Topbar";
 import BooksView from "../../components/Layouts/Home/BooksView";
 
-const Home = () => {
+const Home = ({ books }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     return (
@@ -22,7 +22,7 @@ const Home = () => {
                     <Topbar />
 
                     <main className="p-6 max-w-screen-xl mx-auto">
-                        <BooksView />
+                        <BooksView books={books} />
                     </main>
                 </div>
             </div>

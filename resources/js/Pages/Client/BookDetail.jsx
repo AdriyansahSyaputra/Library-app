@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import Sidebar from "../../components/templates/client/Sidebar";
 import Topbar from "../../components/templates/client/Topbar";
 import BookDetail from "../../components/Layouts/BookDetail/BookDetail";
+import { usePage } from "@inertiajs/react";
 
-const Home = () => {
+const BookDetailPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+    const { book } = usePage().props;
 
     return (
         <>
@@ -22,7 +25,7 @@ const Home = () => {
                     <Topbar />
 
                     <main className="p-6 max-w-screen-xl flex md:my-16">
-                        <BookDetail />
+                        <BookDetail book={book} />
                     </main>
                 </div>
             </div>
@@ -30,4 +33,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default BookDetailPage;

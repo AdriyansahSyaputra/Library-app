@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Filters = ({ filters, handleFilterChange, isDarkMode }) => {
+const Filters = ({ isDarkMode }) => {
     return (
         <div className="flex space-x-4 mb-6">
             <div>
@@ -11,8 +11,6 @@ const Filters = ({ filters, handleFilterChange, isDarkMode }) => {
                 <input
                     type="number"
                     name="year"
-                    value={filters.year}
-                    onChange={handleFilterChange}
                     placeholder="Tahun"
                     className={`w-full px-4 py-2 rounded-lg border ${
                         isDarkMode
@@ -25,8 +23,6 @@ const Filters = ({ filters, handleFilterChange, isDarkMode }) => {
                 <label className="block text-sm font-medium mb-2">Status</label>
                 <select
                     name="status"
-                    value={filters.status}
-                    onChange={handleFilterChange}
                     className={`w-full px-4 py-2 rounded-lg border ${
                         isDarkMode
                             ? "bg-gray-700 border-gray-600"

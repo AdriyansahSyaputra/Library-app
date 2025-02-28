@@ -1,15 +1,4 @@
 import React, { useState } from "react";
-import {
-    Lock,
-    Mail,
-    Eye,
-    EyeOff,
-    Sun,
-    Moon,
-    Facebook,
-    Twitter,
-    Github,
-} from "lucide-react";
 import Toggle from "../../components/Layouts/Auth/Toggle";
 import Header from "../../components/Layouts/Auth/Header";
 import AccountOption from "../../components/Layouts/Auth/AccountOption";
@@ -25,7 +14,7 @@ const Register = () => {
 
     return (
         <div
-            className={`min-h-screen my-6 flex items-center justify-center ${
+            className={`min-h-screen flex items-center justify-center ${
                 isDarkMode
                     ? "bg-gray-900 text-white"
                     : "bg-gray-100 text-gray-900"
@@ -55,7 +44,7 @@ const Register = () => {
                 <AccountOption isDarkMode={isDarkMode} />
 
                 {/* Login Sekarang */}
-                <Footer ask="Sudah punya akun?" action="Login" />
+                <Footer ask="Sudah punya akun?" action="Login" link="/login" />
             </div>
         </div>
     );

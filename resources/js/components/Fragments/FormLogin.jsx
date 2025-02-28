@@ -4,6 +4,7 @@ import Input from "../Elements/input/Input";
 import ButtonEye from "../Elements/ButtonEye";
 import { Mail, Lock } from "lucide-react";
 import PropTypes from "prop-types";
+import { useForm } from "@inertiajs/react";
 
 const FormLogin = ({ isDarkMode }) => {
     const [email, setEmail] = useState("");
@@ -11,16 +12,23 @@ const FormLogin = ({ isDarkMode }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
 
+    const { data, setData, post, errors } = useForm({
+        email: "",
+        password: "",
+        remember: false,
+    });
+
+    const handleChange = (e) => {
+        setData(e.target.name, e.target.value);
+    };
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Logika untuk proses login
-        console.log("Email:", email);
-        console.log("Password:", password);
-        console.log("Ingat Saya:", rememberMe);
+        post("/login",);
     };
 
     return (
@@ -39,8 +47,8 @@ const FormLogin = ({ isDarkMode }) => {
                         type="email"
                         id="email"
                         name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={data.email}
+                        onChange={handleChange}
                         placeholder="Masukkan email Anda"
                         isDarkMode={isDarkMode}
                     />
@@ -61,8 +69,8 @@ const FormLogin = ({ isDarkMode }) => {
                         type={showPassword ? "text" : "password"}
                         id="password"
                         name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={data.password}
+                        onChange={handleChange}
                         placeholder="Masukkan password Anda"
                         isDarkMode={isDarkMode}
                     />
@@ -73,6 +81,13 @@ const FormLogin = ({ isDarkMode }) => {
                     />
                 </div>
             </div>
+            
+            {/* Error Message */}
+            {errors.credentials && (
+                <div className="text-red-500 text-sm">
+                    {errors.credentials}
+                </div>
+            )}
 
             {/* Ingat Saya dan Lupa Password */}
             <div className="flex items-center justify-between">

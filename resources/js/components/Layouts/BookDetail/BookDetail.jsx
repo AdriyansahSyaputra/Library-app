@@ -1,13 +1,13 @@
 import React from "react";
 import { Star, ArrowLeft } from "lucide-react";
-import { Inertia } from "@inertiajs/inertia";
+import PropTypes from "prop-types";
 
-const BookDetail = () => {
+const BookDetail = ({ book }) => {
     // Fungsi untuk navigasi kembali
     const handleBack = () => {
-        Inertia.visit(route("books.index"));
+        window.history.back();
     };
-
+    
     // Fungsi untuk meminjam buku
     const handleBorrow = () => {
        alert('Buku berhasil dipinjam');
@@ -19,8 +19,8 @@ const BookDetail = () => {
                 {/* Cover Buku */}
                 <div className="w-full md:w-1/3 h-96 rounded-lg overflow-hidden">
                     <img
-                        src="/assets/img/cover/1.jpg"
-                        alt="Book Cover"
+                        src={`/assets/img/cover/${book.gambar}`}
+                        alt={book.judul}
                         className="w-full h-full object-cover"
                     />
                 </div>
@@ -29,7 +29,7 @@ const BookDetail = () => {
                 <div className="w-full md:w-2/3 flex flex-col justify-between">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-800 mb-4">
-                            Book Title
+                            {book.judul}
                         </h1>
                         {/* Rating */}
                         <div className="flex gap-1 mb-4">
@@ -41,20 +41,17 @@ const BookDetail = () => {
                             ))}
                         </div>
                         <p className="text-gray-600 mb-4">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Iure modi inventore quasi asperiores eligendi
-                            omnis impedit veritatis ex at, similique dolor, nam
-                            cumque. Quo, fuga.
+                            {book.deskripsi}
                         </p>
                         <p className="text-sm text-gray-500">
-                            <span className="font-semibold">Penerbit:</span>{" "}
-                            Publisher Name
+                            <span className="font-semibold">Penulis:</span>{" "}
+                            {book.penulis}
                         </p>
                         <p className="text-sm text-gray-500">
                             <span className="font-semibold">
                                 Tanggal Terbit:
                             </span>{" "}
-                            15-Feb-2020
+                            {book.tahun_terbit}
                         </p>
                     </div>
 
@@ -81,3 +78,7 @@ const BookDetail = () => {
 };
 
 export default BookDetail;
+
+BookDetail.propTypes = {
+    book: PropTypes.object.isRequired,
+};

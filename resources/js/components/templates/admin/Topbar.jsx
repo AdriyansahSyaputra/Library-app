@@ -9,10 +9,16 @@ import {
     LogOut,
 } from "lucide-react";
 import ShowNotification from "./ShowNotification";
+import { router, usePage } from "@inertiajs/react";
 
 const Topbar = ({ isDarkMode, setIsDarkMode }) => {
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { auth } = usePage().props;
+
+    const handleLogout = () => {
+        router.post("logout");
+    };
 
     return (
         <div
@@ -61,9 +67,7 @@ const Topbar = ({ isDarkMode, setIsDarkMode }) => {
                         <Bell size={20} />
                     </button>
                     {/* Preview Notifikasi */}
-                    {isNotificationOpen && (
-                       <ShowNotification />
-                    )}
+                    {isNotificationOpen && <ShowNotification />}
                 </div>
 
                 {/* Garis Vertikal Pembatas */}
@@ -74,48 +78,57 @@ const Topbar = ({ isDarkMode, setIsDarkMode }) => {
                 />
 
                 {/* Informasi Admin dan Dropdown */}
-                <div className="relative">
-                    <button
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg transition-colors"
-                    >
-                        <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
-                            <User size={20} className="text-white" />
-                        </div>
-                        <div className="text-left">
-                            <p className="text-sm font-semibold">John Doe</p>
-                            <p className="text-xs text-gray-500">Admin</p>
-                        </div>
-                        <ChevronDown size={16} />
-                    </button>
+                {auth.user && (
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                            className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg transition-colors"
+                        >
+                            <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
+                                <User size={20} className="text-white" />
+                            </div>
+                            <div className="text-left">
+                                <p className="text-sm font-semibold">
+                                    {auth.user.name}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                    {auth.user.email}
+                                </p>
+                            </div>
+                            <ChevronDown size={16} />
+                        </button>
 
-                    {/* Dropdown Menu */}
-                    {isDropdownOpen && (
-                        <div
-                            className={`absolute right-0 mt-2 w-48 rounded-lg shadow-lg 
+                        {/* Dropdown Menu */}
+                        {isDropdownOpen && (
+                            <div
+                                className={`absolute z-10 right-0 mt-2 w-48 rounded-lg shadow-lg 
               ${
                   isDarkMode
                       ? "bg-gray-700 text-white"
                       : "bg-white text-gray-900"
               }`}
-                        >
-                            <div className="p-2">
-                                <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
-                                    <User size={16} />
-                                    <span>Profile</span>
-                                </button>
-                                <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
-                                    <Settings size={16} />
-                                    <span>Settings</span>
-                                </button>
-                                <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
-                                    <LogOut size={16} />
-                                    <span>Logout</span>
-                                </button>
+                            >
+                                <div className="p-2">
+                                    <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
+                                        <User size={16} />
+                                        <span>Profile</span>
+                                    </button>
+                                    <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
+                                        <Settings size={16} />
+                                        <span>Settings</span>
+                                    </button>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg"
+                                    >
+                                        <LogOut size={16} />
+                                        <span>Logout</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

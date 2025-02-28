@@ -1,8 +1,9 @@
 import React from "react";
 import { ChevronRight } from "lucide-react";
 import CardBook from "../../Fragments/CardBook";
+import PropTypes from "prop-types";
 
-const BooksView = () => {
+const BooksView = ({ books }) => {
     return (
         <>
             <div className="w-full h-full bg-white rounded-lg shadow-md px-4 py-6">
@@ -22,9 +23,7 @@ const BooksView = () => {
 
                 {/* Card Books */}
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-                    {[...Array(10)].map((_, index) => (
-                        <CardBook key={index} />
-                    ))}
+                    <CardBook books={books} />
                 </div>
             </div>
         </>
@@ -32,3 +31,7 @@ const BooksView = () => {
 };
 
 export default BooksView;
+
+BooksView.propTypes = {
+    books: PropTypes.array,
+};

@@ -47,6 +47,7 @@ const Login = () => {
                 <Footer
                     ask="Apakah Anda belum punya akun?"
                     action="Daftar Sekarang"
+                    link="/register"
                 />
             </div>
         </div>
