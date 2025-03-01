@@ -2,7 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { MoreVertical, Edit, Trash } from "lucide-react";
 
-const BooksTable = ({ books, isDarkMode, isDropdownOpen, toggleDropdown }) => {
+const BooksTable = ({
+    books,
+    isDarkMode,
+    isDropdownOpen,
+    toggleDropdown,
+    handleDeleteBook,
+}) => {
     return (
         <div
             className={`rounded-lg shadow-md overflow-hidden ${
@@ -49,8 +55,14 @@ const BooksTable = ({ books, isDarkMode, isDropdownOpen, toggleDropdown }) => {
                         >
                             <td className="px-6 py-4">
                                 <img
-                                    src={`/assets/img/cover/${book.gambar}`}
-                                    alt={book.judul}
+                                    src={
+                                        book.gambar
+                                            ? book.gambar.startsWith("covers/")
+                                                ? `/storage/${book.gambar}` // Jika gambar baru yang disimpan di storage
+                                                : `/assets/img/cover/${book.gambar}` // Jika gambar bawaan dari assets/img/cover
+                                            : "/assets/img/no-image.png"
+                                    }
+                                    alt={book.judul || "Cover buku"}
                                     className="w-10 h-10 rounded"
                                 />
                             </td>
@@ -91,7 +103,14 @@ const BooksTable = ({ books, isDarkMode, isDropdownOpen, toggleDropdown }) => {
                                             <Edit size={16} />
                                             <span>Edit</span>
                                         </button>
-                                        <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleDeleteBook(book.id);
+                                                toggleDropdown(null);
+                                            }}
+                                            className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg"
+                                        >
                                             <Trash size={16} />
                                             <span>Delete</span>
                                         </button>
@@ -107,8 +126,11 @@ const BooksTable = ({ books, isDarkMode, isDropdownOpen, toggleDropdown }) => {
 };
 
 BooksTable.propTypes = {
-    filteredBooks: PropTypes.array.isRequired,
+    books: PropTypes.array.isRequired,
     isDarkMode: PropTypes.bool.isRequired,
+    isDropdownOpen: PropTypes.number,
+    toggleDropdown: PropTypes.func.isRequired,
+    handleDeleteBook: PropTypes.func.isRequired,
 };
 
 export default BooksTable;

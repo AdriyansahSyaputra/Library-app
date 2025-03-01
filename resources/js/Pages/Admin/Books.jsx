@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import Sidebar from "../../components/templates/admin/Sidebar";
 import Topbar from "../../components/templates/admin/Topbar";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import Header from "../../components/Layouts/BooksDashboard/Header";
 import Filters from "../../components/Layouts/BooksDashboard/Filters";
 import BooksTable from "../../components/Layouts/BooksDashboard/BooksTable";
 import FormModal from "../../components/Layouts/BooksDashboard/FormModal";
+import Alert from "../../components/Fragments/Alert";
 
 const Books = ({ books }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
     const [isAddBookOpen, setIsAddBookOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
     const toggleDropdown = (id) => {
         setIsDropdownOpen(isDropdownOpen === id ? null : id);
     };
@@ -20,9 +23,36 @@ const Books = ({ books }) => {
         setIsDarkMode(!isDarkMode);
     };
 
+    const handleDeleteBook = async (id) => {
+        if (window.confirm("Apakah Anda yakin ingin menghapus buku ini?")) {
+            try {
+                router.delete(`/dashboard/books/${id}`, {
+                    onSuccess: () => {
+                        setIsOpen(true); // Tampilkan alert
+                        setTimeout(() => {
+                            setIsOpen(false); // Sembunyikan alert setelah 2 detik
+                        }, 2000);
+                    },
+                    onError: (errors) => {
+                        alert("Gagal menghapus buku.");
+                    },
+                });
+            } catch (error) {
+                console.error("Error deleting book:", error);
+                alert("Terjadi kesalahan saat menghapus buku.");
+            }
+        }
+    };
+
     return (
         <>
             <Head title="Dashboard" />
+
+            <Alert
+                isOpen={isOpen}
+                action="Success"
+                message="Data Buku Berhasil Dihapus!"
+            />
 
             <div
                 className={`${
@@ -67,6 +97,7 @@ const Books = ({ books }) => {
                                 isDarkMode={isDarkMode}
                                 isDropdownOpen={isDropdownOpen}
                                 toggleDropdown={toggleDropdown}
+                                handleDeleteBook={handleDeleteBook}
                             />
 
                             {isAddBookOpen && (

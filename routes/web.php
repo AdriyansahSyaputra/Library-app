@@ -23,10 +23,11 @@ Route::get('/dashboard', function () {
     return inertia('Admin/Dashboard');
 })->middleware('auth')->name('dashboard');
 
-Route::middleware('auth')->controller(BookController::class)->group(function () {
-    Route::get('/dashboard/books', 'index')->name('dashboard.books');
-    Route::post('/dashboard/books', 'store');
-});
+    Route::middleware('auth')->controller(BookController::class)->group(function () {
+        Route::get('/dashboard/books', 'index')->name('dashboard.books');
+        Route::post('/dashboard/books', 'store');
+        Route::delete('/dashboard/books/{id}', 'delete');
+    });
 
 Route::get('/dashboard/users', function () {
     return inertia('Admin/Users');

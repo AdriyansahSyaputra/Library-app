@@ -30,15 +30,4 @@ class FormAddBookRequest extends FormRequest
             'status' => ['required', 'string', 'max:255'],
         ];
     }
-
-    public function passedValidation()
-    {
-        if ($this->hasFile('gambar')) {
-            $filename = $this->file('gambar')->hashName();
-            $path = $this->file('gambar')->storeAs('covers', $filename, 'public');
-            $this->merge([
-                'gambar' => $path, // Simpan path gambar ke data
-            ]);
-        }
-    }
 }
