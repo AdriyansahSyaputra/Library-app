@@ -10,16 +10,16 @@ const CardBookBorrow = ({ borrowedBooks, openModal }) => {
                     className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
                 >
                     <img
-                        src={book.cover}
-                        alt={book.title}
+                        src={`/assets/img/cover/${book.book.gambar}`}
+                        alt={book.book.judul}
                         className="w-full h-48 object-cover"
                     />
                     <div className="p-4 flex flex-col flex-grow">
                         <h2 className="text-lg font-semibold mb-1">
-                            {book.title}
+                            {book.book.judul}
                         </h2>
                         <p className="text-sm text-gray-600 mb-2">
-                            {book.author}
+                            {book.book.penulis}
                         </p>
                         <button
                             onClick={() => openModal(book)}

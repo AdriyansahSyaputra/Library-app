@@ -11,7 +11,7 @@ const BooksTable = ({
 }) => {
     return (
         <div
-            className={`rounded-lg shadow-md overflow-hidden ${
+            className={`relative rounded-lg shadow-md overflow-x-auto ${
                 isDarkMode ? "bg-gray-800" : "bg-white"
             }`}
         >
@@ -93,11 +93,14 @@ const BooksTable = ({
                                 </button>
                                 {isDropdownOpen === book.id && (
                                     <div
-                                        className={`absolute right-6 mt-2 w-32 rounded-lg shadow-md ${
+                                        className={`absolute right-0 mt-2 w-32 rounded-lg shadow-lg ${
                                             isDarkMode
-                                                ? "bg-gray-700"
+                                                ? "bg-gray-700 text-white"
                                                 : "bg-white"
-                                        }`}
+                                        } z-50`}
+                                        style={{
+                                            top: "100%",
+                                        }}
                                     >
                                         <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
                                             <Edit size={16} />

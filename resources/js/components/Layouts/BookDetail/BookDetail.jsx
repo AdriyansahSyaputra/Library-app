@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Star, ArrowLeft } from "lucide-react";
 import PropTypes from "prop-types";
+import FormBorrow from "../../Fragments/FormBorrow";
 
 const BookDetail = ({ book }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedBook, setSelectedBook] = useState(null);
+
     // Fungsi untuk navigasi kembali
     const handleBack = () => {
         window.history.back();
     };
-    
-    // Fungsi untuk meminjam buku
-    const handleBorrow = () => {
-       alert('Buku berhasil dipinjam');
+
+    // Fungsi untuk membuka modal
+    const handleOpenModal = () => {
+        setSelectedBook(book);
+        setIsModalOpen(true);
     };
 
     return (
+        <>
         <div className="max-w-4xl w-full bg-white rounded-lg shadow-md p-8 mx-auto">
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Cover Buku */}
@@ -65,7 +71,7 @@ const BookDetail = ({ book }) => {
                             Kembali
                         </button>
                         <button
-                            onClick={handleBorrow}
+                            onClick={handleOpenModal}
                             className="flex-1 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200"
                         >
                             Pinjam Buku
@@ -74,6 +80,12 @@ const BookDetail = ({ book }) => {
                 </div>
             </div>
         </div>
+
+        {/* Modal Pinjam Buku */}
+        {isModalOpen && (
+            <FormBorrow book={selectedBook} onClose={() => setIsModalOpen(false)} />
+        )}
+        </>
     );
 };
 

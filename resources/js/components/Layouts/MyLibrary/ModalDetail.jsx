@@ -14,21 +14,21 @@ const ModalDetail = ({ selectedBook, closeModal, handleReturnBook }) =>{
                 </button>
                 <div className="w-1/3 flex-shrink-0">
                     <img
-                        src={selectedBook.cover}
-                        alt={selectedBook.title}
+                        src={`/assets/img/cover/${selectedBook.book.gambar}`}
+                        alt={selectedBook.book.judul}
                         className="w-full h-full object-cover rounded-lg"
                     />
                 </div>
                 <div className="w-2/3 pl-6 flex flex-col justify-between">
                     <div>
                         <h2 className="text-2xl font-semibold">
-                            {selectedBook.title}
+                            {selectedBook.book.judul}
                         </h2>
                         <p className="text-sm text-gray-600 mb-2">
-                            {selectedBook.author}
+                            {selectedBook.book.penulis}
                         </p>
                         <p className="text-gray-700 mb-4">
-                            {selectedBook.description}
+                            {selectedBook.book.deskripsi}
                         </p>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
@@ -36,7 +36,7 @@ const ModalDetail = ({ selectedBook, closeModal, handleReturnBook }) =>{
                                     Tanggal Pinjam
                                 </p>
                                 <p className="font-semibold">
-                                    {selectedBook.borrowDate}
+                                    {selectedBook.tanggal_pinjam}
                                 </p>
                             </div>
                             <div>
@@ -44,7 +44,7 @@ const ModalDetail = ({ selectedBook, closeModal, handleReturnBook }) =>{
                                     Tanggal Kembali
                                 </p>
                                 <p className="font-semibold">
-                                    {selectedBook.returnDate}
+                                    {selectedBook.tanggal_kembali}
                                 </p>
                             </div>
                         </div>

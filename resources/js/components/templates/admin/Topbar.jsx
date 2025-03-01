@@ -17,7 +17,7 @@ const Topbar = ({ isDarkMode, setIsDarkMode }) => {
     const { auth } = usePage().props;
 
     const handleLogout = () => {
-        router.post("logout");
+        router.post("/logout");
     };
 
     return (

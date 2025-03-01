@@ -25,17 +25,17 @@ const menuItems = [
     {
         title: "My Library",
         icon: <BookOpenText className="w-5 h-5" />,
-        link: "/dashboard/my-library",
+        link: "/my-library",
     },
     {
         title: "Favourite",
         icon: <BookHeart className="w-5 h-5" />,
-        link: "/dashboard/favorite",
+        link: "/favorite",
     },
     {
         title: "Settings",
         icon: <Settings className="w-5 h-5" />,
-        link: "/dashboard/settings",
+        link: "/settings",
     },
 ];
 

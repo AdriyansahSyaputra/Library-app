@@ -4,43 +4,10 @@ import Topbar from "../../components/templates/client/Topbar";
 import CardBookBorrow from "../../components/Layouts/MyLibrary/CardBookBorrow";
 import ModalDetail from "../../components/Layouts/MyLibrary/ModalDetail";
 
-const MyLibrary = () => {
+const MyLibrary = ({ borrowedBooks }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [selectedBook, setSelectedBook] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const borrowedBooks = [
-        {
-            id: 1,
-            cover: "/assets/img/cover/1.jpg",
-            title: "The Great Gatsby",
-            author: "F. Scott Fitzgerald",
-            description:
-                "A story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.",
-            borrowDate: "2023-10-01",
-            returnDate: "2023-10-15",
-        },
-        {
-            id: 2,
-            cover: "/assets/img/cover/1.jpg",
-            title: "1984",
-            author: "George Orwell",
-            description:
-                "A dystopian novel set in a totalitarian society ruled by the Party.",
-            borrowDate: "2023-10-05",
-            returnDate: "2023-10-20",
-        },
-        {
-            id: 3,
-            cover: "/assets/img/cover/1.jpg",
-            title: "To Kill a Mockingbird",
-            author: "Harper Lee",
-            description:
-                "A novel about the serious issues of rape and racial inequality.",
-            borrowDate: "2023-10-10",
-            returnDate: "2023-10-25",
-        },
-    ];
 
     const openModal = (book) => {
         setSelectedBook(book);
