@@ -2,40 +2,22 @@ import React, { useState } from "react";
 import Sidebar from "../../components/templates/admin/Sidebar";
 import Topbar from "../../components/templates/admin/Topbar";
 import { Head } from "@inertiajs/react";
-import SearchInput from "../../components/Layouts/UsersDashboard/SearchInput";
-import Filter from "../../components/Layouts/UsersDashboard/Filter";
-import TableUsers from "../../components/Layouts/UsersDashboard/TableUsers";
+import SearchInput from "../../components/Layouts/DelayDashboard/SearchInput";
+import TableDelay from "../../components/Layouts/DelayDashboard/TableDelay";
 
-const Users = ({ users }) => {
+const Delay = ({ delays }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(true);
-
-    const [searchQuery, setSearchQuery] = useState("");
-    const [filterMajor, setFilterMajor] = useState("");
-    const [isDropdownOpen, setIsDropdownOpen] = useState(null);
-
-    // Fungsi untuk memfilter data users
-    const filteredUsers = users.filter((user) => {
-        const matchesSearch =
-            user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.email.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesMajor = filterMajor === "" || user.major === filterMajor;
-        return matchesSearch && matchesMajor;
-    });
-
-    // Fungsi untuk toggle dropdown action
-    const toggleDropdown = (id) => {
-        setIsDropdownOpen(isDropdownOpen === id ? null : id);
-    };
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
     };
 
+    
     return (
         <>
             <Head title="Dashboard" />
-
+            
             <div
                 className={`${
                     isDarkMode
@@ -59,7 +41,6 @@ const Users = ({ users }) => {
                             isDarkMode={isDarkMode}
                             setIsDarkMode={toggleDarkMode}
                         />
-
                         <main
                             className={`p-6 max-w-screen-xl mx-auto ${
                                 isDarkMode
@@ -67,33 +48,17 @@ const Users = ({ users }) => {
                                     : "bg-gray-100 text-gray-900"
                             }`}
                         >
-                            {/* Header, Search Input & Filter */}
                             <div className="flex items-center justify-between mb-6">
-                                <SearchInput
-                                    isDarkMode={isDarkMode}
-                                    setSearchQuery={setSearchQuery}
-                                    searchQuery={searchQuery}
-                                />
-
-                                <Filter
-                                    isDarkMode={isDarkMode}
-                                    setFilterMajor={setFilterMajor}
-                                    filterMajor={filterMajor}
-                                />
+                                <SearchInput isDarkMode={isDarkMode} />
                             </div>
 
-                            {/* Table Users */}
                             <div
                                 className={`rounded-lg shadow-md overflow-hidden ${
                                     isDarkMode ? "bg-gray-800" : "bg-white"
                                 }`}
                             >
-                                <TableUsers
-                                    isDarkMode={isDarkMode}
-                                    users={filteredUsers}
-                                    toggleDropdown={toggleDropdown}
-                                    isDropdownOpen={isDropdownOpen}
-                                />
+
+                                <TableDelay isDarkMode={isDarkMode} delays={delays} />
                             </div>
                         </main>
                     </div>
@@ -103,4 +68,4 @@ const Users = ({ users }) => {
     );
 };
 
-export default Users;
+export default Delay;

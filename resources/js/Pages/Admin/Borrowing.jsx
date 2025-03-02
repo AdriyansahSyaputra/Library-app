@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/templates/admin/Sidebar";
 import Topbar from "../../components/templates/admin/Topbar";
 import { Head } from "@inertiajs/react";
@@ -6,47 +6,36 @@ import TableBorrow from "../../components/Layouts/Borrow/TableBorrow";
 import SearchInput from "../../components/Layouts/Borrow/SearchInput";
 import Filter from "../../components/Layouts/Borrow/Filter";
 
-const Borrowing = () => {
+const Borrowing = ({ borrows }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(true);
-    const [books, setBooks] = useState([
-        {
-            id: 1,
-            name: "John Doe",
-            book: "The Great Gatsby",
-            borrow_date: "2023-01-01",
-            return_date: "2023-01-15",
-            status: "Dipinjam",
-        },
-        {
-            id: 2,
-            name: "Jane Smith",
-            book: "1984",
-            borrow_date: "2023-02-01",
-            return_date: "2023-02-15",
-            status: "Dipinjam",
-        },
-        {
-            id: 3,
-            name: "Alice Johnson",
-            book: "To Kill a Mockingbird",
-            borrow_date: "2023-03-01",
-            return_date: "2023-03-15",
-            status: "Dipinjam",
-        },
-    ]);
+    const [books, setBooks] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
     const [filterStatus, setFilterStatus] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
-    // Fungsi untuk memfilter data books
-    const filteredBooks = books.filter((book) => {
-        const matchesSearch =
-            book.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesStatus = filterStatus === "" || book.status === filterStatus;
-        return matchesSearch && matchesStatus;
-    });
+    const fetchFilteredBorrows = async () => {
+        try {
+            const response = await axios.get("/dashboard/borrowing/filter", {
+                params: {
+                    search: searchQuery,
+                    status: filterStatus,
+                },
+            });
+            setBooks(response.data.borrows);
+        } catch (error) {
+            console.error("Error fetching filtered borrows:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchFilteredBorrows();
+    }, []);
+
+    useEffect(() => {
+        fetchFilteredBorrows();
+    }, [searchQuery, filterStatus]);
 
     // Fungsi untuk toggle dropdown action
     const toggleDropdown = (id) => {
@@ -113,7 +102,7 @@ const Borrowing = () => {
                             >
                                 <TableBorrow
                                     isDarkMode={isDarkMode}
-                                    filteredBorrow={filteredBooks}
+                                    borrows={books}
                                     isDropdownOpen={isDropdownOpen}
                                     toggleDropdown={toggleDropdown}
                                 />

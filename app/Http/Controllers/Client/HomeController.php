@@ -63,6 +63,6 @@ class HomeController extends Controller
             'status' => 'dipinjam',
         ]);
 
-        return Inertia::render('Client/BookDetail');
+        return redirect()->back()->with('success', 'Buku berhasil dipinjam!');
     }
 }

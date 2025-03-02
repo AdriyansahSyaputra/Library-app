@@ -18,11 +18,23 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
     const [activeMenu, setActiveMenu] = React.useState("/dashboard");
 
     const menus = [
-        { name: "Dashboard", link: "/dashboard" ,icon: <LayoutDashboard size={20} /> },
-        { name: "Books", link: "/dashboard/books" ,icon: <BookOpen size={20} /> },
-        { name: "Users", link: "/dashboard/users" ,icon: <Users size={20} /> },
-        { name: "Borrowing", link: "/dashboard/borrowing" ,icon: <Bookmark size={20} /> },
-        { name: "Delay", link: "/dashboard/delay" ,icon: <Clock size={20} /> },
+        {
+            name: "Dashboard",
+            link: "/dashboard",
+            icon: <LayoutDashboard size={20} />,
+        },
+        {
+            name: "Books",
+            link: "/dashboard/books",
+            icon: <BookOpen size={20} />,
+        },
+        { name: "Users", link: "/dashboard/users", icon: <Users size={20} /> },
+        {
+            name: "Borrowing",
+            link: "/dashboard/borrows",
+            icon: <Bookmark size={20} />,
+        },
+        { name: "Delay", link: "/dashboard/delays", icon: <Clock size={20} /> },
     ];
 
     const additionalMenus = [
@@ -33,7 +45,9 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
     return (
         <div
             className={`fixed inset-y-0 ${
-                isDarkMode ? "bg-gray-900 text-white border-r border-gray-700" : "bg-white text-gray-900"
+                isDarkMode
+                    ? "bg-gray-900 text-white border-r border-gray-700"
+                    : "bg-white text-gray-900"
             } ${isSidebarOpen ? "w-60" : "w-20"} 
             p-4 flex flex-col justify-between transition-all duration-300 ease-in-out`}
         >
@@ -63,7 +77,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
                 {/* Menu Items */}
                 <div className="mt-8">
                     {menus.map((menu, index) => (
-                        <div
+                        <Link
+                            href={menu.link}
                             key={index}
                             className={`flex items-center p-2 rounded-lg cursor-pointer 
                 ${
@@ -79,10 +94,10 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
                             onClick={() => setActiveMenu(menu.name)}
                         >
                             <div className="mr-3">{menu.icon}</div>
-                            <Link href={menu.link} className={`${!isSidebarOpen && "hidden"}`}>
+                            <span className={`${!isSidebarOpen && "hidden"}`}>
                                 {menu.name}
-                            </Link>
-                        </div>
+                            </span>
+                        </Link>
                     ))}
                 </div>
 
