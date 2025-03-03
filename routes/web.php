@@ -1,12 +1,13 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BookController;
-use App\Http\Controllers\Admin\BorrowController;
-use App\Http\Controllers\Admin\DelayController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\DelayController;
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Admin\BorrowController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Client\MyLibraryController;
 
@@ -18,7 +19,7 @@ Route::middleware('auth')->controller(HomeController::class)->group(function () 
 });
 
 Route::get('/book', function () {
-    return inertia('Client/BookDetail');
+    return Inertia::render('Client/BookDetail');
 });
 
 Route::middleware('auth')->group(function () {
@@ -28,7 +29,7 @@ Route::middleware('auth')->group(function () {
 
 // Route for Admin
 Route::get('/dashboard', function () {
-    return inertia('Admin/Dashboard');
+    return Inertia::render('Admin/Dashboard');
 })->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->controller(BookController::class)->group(function () {

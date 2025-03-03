@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     LayoutDashboard,
     BookOpen,
@@ -12,10 +12,12 @@ import {
     User,
 } from "lucide-react";
 import PropTypes from "prop-types";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
-    const [activeMenu, setActiveMenu] = React.useState("/dashboard");
+    const { url } = usePage();
+    const { auth } = usePage().props;
+    const [activeMenu, setActiveMenu] = useState(url);
 
     const menus = [
         {
@@ -82,7 +84,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
                             key={index}
                             className={`flex items-center p-2 rounded-lg cursor-pointer 
                 ${
-                    activeMenu === menu.name
+                    activeMenu === menu.link
                         ? isDarkMode
                             ? "bg-blue-600 text-white"
                             : "bg-blue-100 text-blue-900"
@@ -91,7 +93,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
                         : "hover:bg-gray-100"
                 } 
                 transition-colors duration-200 mb-2`}
-                            onClick={() => setActiveMenu(menu.name)}
+                            onClick={() => setActiveMenu(menu.link)}
                         >
                             <div className="mr-3">{menu.icon}</div>
                             <span className={`${!isSidebarOpen && "hidden"}`}>
@@ -141,15 +143,27 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
                     isDarkMode ? "bg-gray-800" : "bg-white"
                 } rounded-lg hover:bg-gray-200 transition-colors duration-200 p-2`}
             >
-                <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
-                        <User size={20} className="text-white" />
+                {auth.user ? (
+                    <div className="flex items-center">
+                        <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
+                            <User size={20} className="text-white" />
+                        </div>
+                        <div className={`ml-3 ${!isSidebarOpen && "hidden"}`}>
+                            <p className="font-semibold text-sm">{auth.user.name}</p>
+                            <p className="text-sm text-gray-500">Admin</p>
+                        </div>
                     </div>
-                    <div className={`ml-3 ${!isSidebarOpen && "hidden"}`}>
-                        <p className="font-semibold text-sm">John Doe</p>
-                        <p className="text-sm text-gray-500">Admin</p>
+                ) : (
+                    <div className="flex items-center">
+                        <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
+                            <User size={20} className="text-white" />
+                        </div>
+                        <div className={`ml-3 ${!isSidebarOpen && "hidden"}`}>
+                            <p className="font-semibold text-sm">Guest</p>
+                            <p className="text-sm text-gray-500">Guest</p>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

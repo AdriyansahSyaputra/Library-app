@@ -13,10 +13,30 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::all();
+        // Ambil query parameter dari input
+        $year = request()->input('year');
+        $status = request()->input('status');
+
+        $books = Book::query();
+
+        // Filter berdasarkan tahun terbit
+        if ($year) {
+            $books->whereYear('tahun_terbit', $year);
+        }
+
+        // Filter berdasarkan status
+        if ($status) {
+            $books->where('status', $status);
+        }
+
+        $books = $books->get();
 
         return Inertia::render('Admin/Books', [
-            'books' => $books
+            'books' => $books,
+            'filters' => [
+                'year' => $year,
+                'status' => $status
+            ]
         ]);
     }
 

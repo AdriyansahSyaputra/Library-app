@@ -3,7 +3,6 @@ import Sidebar from "../../components/templates/admin/Sidebar";
 import Topbar from "../../components/templates/admin/Topbar";
 import { Head } from "@inertiajs/react";
 import SearchInput from "../../components/Layouts/UsersDashboard/SearchInput";
-import Filter from "../../components/Layouts/UsersDashboard/Filter";
 import TableUsers from "../../components/Layouts/UsersDashboard/TableUsers";
 
 const Users = ({ users }) => {
@@ -11,7 +10,6 @@ const Users = ({ users }) => {
     const [isDarkMode, setIsDarkMode] = useState(true);
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [filterMajor, setFilterMajor] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
     // Fungsi untuk memfilter data users
@@ -19,8 +17,7 @@ const Users = ({ users }) => {
         const matchesSearch =
             user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             user.email.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesMajor = filterMajor === "" || user.major === filterMajor;
-        return matchesSearch && matchesMajor;
+        return matchesSearch;
     });
 
     // Fungsi untuk toggle dropdown action
@@ -73,13 +70,7 @@ const Users = ({ users }) => {
                                     isDarkMode={isDarkMode}
                                     setSearchQuery={setSearchQuery}
                                     searchQuery={searchQuery}
-                                />
-
-                                <Filter
-                                    isDarkMode={isDarkMode}
-                                    setFilterMajor={setFilterMajor}
-                                    filterMajor={filterMajor}
-                                />
+                                />  
                             </div>
 
                             {/* Table Users */}

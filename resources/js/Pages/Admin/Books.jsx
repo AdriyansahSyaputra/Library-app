@@ -7,13 +7,43 @@ import Filters from "../../components/Layouts/BooksDashboard/Filters";
 import BooksTable from "../../components/Layouts/BooksDashboard/BooksTable";
 import FormModal from "../../components/Layouts/BooksDashboard/FormModal";
 import Alert from "../../components/Fragments/Alert";
+import UpdateBookModal from "../../components/Layouts/BooksDashboard/UpdateBookModal";
 
-const Books = ({ books }) => {
+const Books = ({ books, filters }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
     const [isAddBookOpen, setIsAddBookOpen] = useState(false);
+    const [isUpdateBookOpen, setIsUpdateBookOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [year, setYear] = useState(filters.year || "");
+    const [status, setStatus] = useState(filters.status || "");
+
+    // Fungsi untuk mengirim filter ke backend
+    const applyFilters = () => {
+        router.get(
+            "/dashboard/books",
+            { year, status },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    };
+
+    // Reset filter
+    const resetFilters = () => {
+        setYear("");
+        setStatus("");
+        router.get(
+            "/dashboard/books",
+            {},
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    };
 
     const toggleDropdown = (id) => {
         setIsDropdownOpen(isDropdownOpen === id ? null : id);
@@ -90,7 +120,15 @@ const Books = ({ books }) => {
                                 isDarkMode={isDarkMode}
                             />
 
-                            <Filters isDarkMode={isDarkMode} />
+                            <Filters
+                                isDarkMode={isDarkMode}
+                                year={year}
+                                setYear={setYear}
+                                status={status}
+                                setStatus={setStatus}
+                                applyFilters={applyFilters}
+                                resetFilters={resetFilters}
+                            />
 
                             <BooksTable
                                 books={books}
@@ -98,12 +136,20 @@ const Books = ({ books }) => {
                                 isDropdownOpen={isDropdownOpen}
                                 toggleDropdown={toggleDropdown}
                                 handleDeleteBook={handleDeleteBook}
+                                setIsUpdateBookOpen={setIsUpdateBookOpen}
                             />
 
                             {isAddBookOpen && (
                                 <FormModal
                                     isAddBookOpen={isAddBookOpen}
                                     setIsAddBookOpen={setIsAddBookOpen}
+                                    isDarkMode={isDarkMode}
+                                />
+                            )}
+
+                            {isUpdateBookOpen && (
+                                <UpdateBookModal
+                                    setIsUpdateBookOpen={setIsUpdateBookOpen}
                                     isDarkMode={isDarkMode}
                                 />
                             )}

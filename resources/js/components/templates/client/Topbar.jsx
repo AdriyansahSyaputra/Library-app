@@ -85,24 +85,27 @@ const Topbar = () => {
                 {auth.user && (
                     <div className="relative" ref={profileRef}>
                         <button
-                            className="flex items-center gap-3 py-1 px-2 rounded-lg hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-3 rounded-lg hover:bg-gray-50 transition-colors p-2"
                             onClick={() =>
                                 setShowProfileDropdown(!showProfileDropdown)
                             }
                         >
                             <div className="w-8 h-8 rounded-full bg-indigo-100 overflow-hidden flex items-center justify-center">
                                 <img
-                                    src="/api/placeholder/32/32"
-                                    alt="John Doe"
+                                    src="/assets/img/default.jpg"
+                                    alt={auth.user.name}
                                     className="w-full h-full object-cover"
                                     loading="lazy"
                                 />
                             </div>
-                            <div className="hidden md:block text-left">
-                                <p className="text-sm font-medium text-gray-700">
+                            <div className="hidden md:block text-left max-w-xs md:max-w-sm">
+                                <p
+                                    className="text-sm font-medium text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis"
+                                    title={auth.user.name}
+                                >
                                     {auth.user.name}
                                 </p>
-                                <p className="text-xs text-gray-500">
+                                <p className="text-xs text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
                                     {auth.user.jurusan || auth.user.email}
                                 </p>
                             </div>
@@ -116,7 +119,10 @@ const Topbar = () => {
                         {showProfileDropdown && (
                             <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 border border-gray-100">
                                 <div className="px-4 py-2 border-b border-gray-100 md:hidden">
-                                    <p className="text-sm font-medium text-gray-700">
+                                    <p
+                                        className="text-sm font-medium text-gray-700 whitespace-nowrap overflow-hidden text-ellipsis"
+                                        title={auth.user.name}
+                                    >
                                         {auth.user.name}
                                     </p>
                                     <p className="text-xs text-gray-500">

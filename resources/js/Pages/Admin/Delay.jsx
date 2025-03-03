@@ -7,7 +7,7 @@ import TableDelay from "../../components/Layouts/DelayDashboard/TableDelay";
 
 const Delay = ({ delays }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);

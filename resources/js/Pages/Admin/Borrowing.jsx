@@ -4,38 +4,27 @@ import Topbar from "../../components/templates/admin/Topbar";
 import { Head } from "@inertiajs/react";
 import TableBorrow from "../../components/Layouts/Borrow/TableBorrow";
 import SearchInput from "../../components/Layouts/Borrow/SearchInput";
-import Filter from "../../components/Layouts/Borrow/Filter";
 
 const Borrowing = ({ borrows }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(true);
-    const [books, setBooks] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [filterStatus, setFilterStatus] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
 
-    const fetchFilteredBorrows = async () => {
-        try {
-            const response = await axios.get("/dashboard/borrowing/filter", {
-                params: {
-                    search: searchQuery,
-                    status: filterStatus,
-                },
-            });
-            setBooks(response.data.borrows);
-        } catch (error) {
-            console.error("Error fetching filtered borrows:", error);
-        }
-    };
+    // Fungsi untuk mencari buku berdasarkan nama dan tanggal pinjam
+    const filteredBorrows = borrows.filter((borrow) => {
+        const borrowerName = borrow.user.name.toLowerCase();
+        const borrowDate = new Date(borrow.tanggal_pinjam);
+        const borrowYear = borrowDate.getFullYear().toString();
+        const borrowTitle = borrow.book.judul.toLowerCase();
 
-    useEffect(() => {
-        fetchFilteredBorrows();
-    }, []);
-
-    useEffect(() => {
-        fetchFilteredBorrows();
-    }, [searchQuery, filterStatus]);
+        return (
+            borrowerName.includes(searchQuery.toLowerCase()) ||
+            borrowYear.includes(searchQuery.toLowerCase()) ||
+            borrowTitle.includes(searchQuery.toLowerCase())
+        );
+    });
 
     // Fungsi untuk toggle dropdown action
     const toggleDropdown = (id) => {
@@ -86,12 +75,6 @@ const Borrowing = ({ borrows }) => {
                                     setSearchQuery={setSearchQuery}
                                     searchQuery={searchQuery}
                                 />
-
-                                <Filter
-                                    isDarkMode={isDarkMode}
-                                    setFilterStatus={setFilterStatus}
-                                    filterStatus={filterStatus}
-                                />
                             </div>
 
                             {/* Table */}
@@ -102,7 +85,7 @@ const Borrowing = ({ borrows }) => {
                             >
                                 <TableBorrow
                                     isDarkMode={isDarkMode}
-                                    borrows={books}
+                                    borrows={filteredBorrows}
                                     isDropdownOpen={isDropdownOpen}
                                     toggleDropdown={toggleDropdown}
                                 />

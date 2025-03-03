@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
     House,
     BookText,
@@ -9,7 +9,7 @@ import {
     ChevronRight,
     LibraryBig,
 } from "lucide-react";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 const menuItems = [
     {
@@ -40,7 +40,8 @@ const menuItems = [
 ];
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-    const [activeItem, setActiveItem] = useState("/");
+    const { url } = usePage();
+    const [activeItem, setActiveItem] = useState(url);
 
     return (
         <>
