@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/templates/admin/Sidebar";
 import Topbar from "../../components/templates/admin/Topbar";
-import { Head, router } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import Header from "../../components/Layouts/BooksDashboard/Header";
 import Filters from "../../components/Layouts/BooksDashboard/Filters";
 import BooksTable from "../../components/Layouts/BooksDashboard/BooksTable";
@@ -14,10 +14,23 @@ const Books = ({ books, filters }) => {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);
     const [isAddBookOpen, setIsAddBookOpen] = useState(false);
-    const [isUpdateBookOpen, setIsUpdateBookOpen] = useState(false);
+    const [selectedBook, setSelectedBook] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [year, setYear] = useState(filters.year || "");
     const [status, setStatus] = useState(filters.status || "");
+    const { flash } = usePage().props;
+    const [showAlert, setShowAlert] = useState(false);
+
+    useEffect(() => {
+        if (flash.success) {
+            setShowAlert(true);
+            const timer = setTimeout(() => {
+                setShowAlert(false);
+            }, 3000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [flash.success]);
 
     // Fungsi untuk mengirim filter ke backend
     const applyFilters = () => {
@@ -78,6 +91,18 @@ const Books = ({ books, filters }) => {
         <>
             <Head title="Dashboard" />
 
+            {showAlert && (
+                <div
+                    className={`fixed mx-auto top-4 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg ${
+                        isDarkMode
+                            ? "bg-green-800 text-green-200"
+                            : "bg-green-500 text-white"
+                    }`}
+                >
+                    {flash.success}
+                </div>
+            )}
+
             <Alert
                 isOpen={isOpen}
                 action="Success"
@@ -136,7 +161,7 @@ const Books = ({ books, filters }) => {
                                 isDropdownOpen={isDropdownOpen}
                                 toggleDropdown={toggleDropdown}
                                 handleDeleteBook={handleDeleteBook}
-                                setIsUpdateBookOpen={setIsUpdateBookOpen}
+                                setSelectedBook={setSelectedBook}
                             />
 
                             {isAddBookOpen && (
@@ -147,10 +172,12 @@ const Books = ({ books, filters }) => {
                                 />
                             )}
 
-                            {isUpdateBookOpen && (
+                            {selectedBook && (
                                 <UpdateBookModal
-                                    setIsUpdateBookOpen={setIsUpdateBookOpen}
+                                    book={selectedBook}
+                                    setSelectedBook={setSelectedBook}
                                     isDarkMode={isDarkMode}
+                                    setShowAlert={setShowAlert}
                                 />
                             )}
                         </main>

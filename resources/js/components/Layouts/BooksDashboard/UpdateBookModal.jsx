@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import { X, Save, Image as ImageIcon } from "lucide-react";
-import { useForm } from "@inertiajs/react";
+import { X, Image as ImageIcon } from "lucide-react";
+import FormUpdateBook from "../../Fragments/FormUpdateBook";
+import PropTypes from "prop-types";
 
-const UpdateBookModal = ({ setIsUpdateBookOpen, isDarkMode, book }) => {
-    const { data, setData, post, processing, errors } = useForm({
-        judul: book?.judul || "",
-        penulis: book?.penulis || "",
-        deskripsi: book?.deskripsi || "",
-        gambar: null, // Gambar baru yang diupload
-        status: book?.status || "tersedia", // Default value untuk status
-        tahun_terbit: book?.tahun_terbit || "",
-    });
-
+const UpdateBookModal = ({ setSelectedBook, isDarkMode, book, setShowAlert }) => {
     const [previewImage, setPreviewImage] = useState(
         book?.gambar
             ? book.gambar.startsWith("covers/")
@@ -24,24 +16,17 @@ const UpdateBookModal = ({ setIsUpdateBookOpen, isDarkMode, book }) => {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setData("gambar", file); // Set data gambar untuk form
-            setPreviewImage(URL.createObjectURL(file)); // Set preview gambar
+            // Validasi tipe file
+            const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
+            if (allowedTypes.includes(file.type)) {
+                setData("gambar", file); // Set data gambar untuk form
+                setPreviewImage(URL.createObjectURL(file)); // Set preview gambar
+            } else {
+                // Tampilkan pesan error jika file bukan gambar
+                alert("Hanya file gambar (JPEG, PNG, JPG) yang diizinkan");
+                e.target.value = null; // Reset input file
+            }
         }
-    };
-
-    // Handle perubahan input
-    const handleChange = (e) => {
-        setData(e.target.name, e.target.value);
-    };
-
-    // Handle submit form
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route("books.update", book.id), {
-            onSuccess: () => {
-                setIsUpdateBookOpen(false); // Tutup modal setelah berhasil
-            },
-        });
     };
 
     return (
@@ -55,7 +40,7 @@ const UpdateBookModal = ({ setIsUpdateBookOpen, isDarkMode, book }) => {
             >
                 {/* Tombol X untuk menutup modal */}
                 <button
-                    onClick={() => setIsUpdateBookOpen(false)}
+                    onClick={() => setSelectedBook(false)}
                     className={`absolute top-4 right-4 p-2 rounded-full ${
                         isDarkMode
                             ? "hover:bg-gray-700 text-white"
@@ -95,116 +80,13 @@ const UpdateBookModal = ({ setIsUpdateBookOpen, isDarkMode, book }) => {
                 {/* Section Kanan: Form Update Buku */}
                 <div className="w-2/3 p-6">
                     <h2 className="text-xl font-semibold mb-4">Update Buku</h2>
-                    <form onSubmit={handleSubmit}>
-                        {/* Input Judul */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-1">
-                                Judul
-                            </label>
-                            <input
-                                type="text"
-                                name="judul"
-                                value={data.judul}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                                    isDarkMode
-                                        ? "bg-gray-700 border-gray-600 focus:ring-blue-500 text-white"
-                                        : "bg-white border-gray-300 focus:ring-blue-500 text-gray-900"
-                                }`}
-                                required
-                            />
-                        </div>
-
-                        {/* Input Penulis */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-1">
-                                Penulis
-                            </label>
-                            <input
-                                type="text"
-                                name="penulis"
-                                value={data.penulis}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                                    isDarkMode
-                                        ? "bg-gray-700 border-gray-600 focus:ring-blue-500 text-white"
-                                        : "bg-white border-gray-300 focus:ring-blue-500 text-gray-900"
-                                }`}
-                                required
-                            />
-                        </div>
-
-                        {/* Input Deskripsi */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-1">
-                                Deskripsi
-                            </label>
-                            <textarea
-                                name="deskripsi"
-                                value={data.deskripsi}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                                    isDarkMode
-                                        ? "bg-gray-700 border-gray-600 focus:ring-blue-500 text-white"
-                                        : "bg-white border-gray-300 focus:ring-blue-500 text-gray-900"
-                                }`}
-                                rows="4"
-                                required
-                            />
-                        </div>
-
-                        {/* Dropdown Status */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-1">
-                                Status
-                            </label>
-                            <select
-                                name="status"
-                                value={data.status}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                                    isDarkMode
-                                        ? "bg-gray-700 border-gray-600 focus:ring-blue-500 text-white"
-                                        : "bg-white border-gray-300 focus:ring-blue-500 text-gray-900"
-                                }`}
-                            >
-                                <option value="tersedia">Tersedia</option>
-                                <option value="dipinjam">Dipinjam</option>
-                            </select>
-                        </div>
-
-                        {/* Input Gambar */}
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium mb-1">
-                                Upload Gambar Baru
-                            </label>
-                            <input
-                                type="file"
-                                name="gambar"
-                                onChange={handleImageUpload}
-                                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                                    isDarkMode
-                                        ? "bg-gray-700 border-gray-600 focus:ring-blue-500 text-white"
-                                        : "bg-white border-gray-300 focus:ring-blue-500 text-gray-900"
-                                }`}
-                                accept="image/*"
-                            />
-                        </div>
-
-                        {/* Tombol Simpan */}
-                        <button
-                            type="submit"
-                            disabled={processing}
-                            className={`w-full ${
-                                isDarkMode
-                                    ? "bg-blue-600 hover:bg-blue-700"
-                                    : "bg-blue-500 hover:bg-blue-600"
-                            } text-white py-2 px-4 rounded-lg flex items-center justify-center transition-colors`}
-                        >
-                            <Save size={18} className="mr-2" />
-                            {processing ? "Menyimpan..." : "Simpan Perubahan"}
-                        </button>
-                    </form>
+                    <FormUpdateBook
+                        book={book}
+                        setSelectedBook={setSelectedBook}
+                        handleImageUpload={handleImageUpload}
+                        isDarkMode={isDarkMode}
+                        setShowAlert={setShowAlert}
+                    />
                 </div>
             </div>
         </div>
@@ -212,3 +94,9 @@ const UpdateBookModal = ({ setIsUpdateBookOpen, isDarkMode, book }) => {
 };
 
 export default UpdateBookModal;
+
+UpdateBookModal.propTypes = {
+    setSelectedBook: PropTypes.func.isRequired,
+    isDarkMode: PropTypes.bool.isRequired,
+    book: PropTypes.object.isRequired,
+};

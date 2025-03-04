@@ -68,6 +68,43 @@ class BookController extends Controller
         return redirect()->route('dashboard.books')->with('success', 'Buku berhasil ditambahkan!');
     }
 
+    public function update(FormAddBookRequest $request, $id)
+    {
+        $validated = $request->validated();
+
+        // Ambil buku berdasarkan ID
+        $book = Book::findOrFail($id);
+
+        // Proses upload gambar jika ada
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('covers', $filename, 'public');
+
+            // Hapus gambar lama jika ada
+            if ($book->gambar) {
+                Storage::disk('public')->delete($book->gambar);
+            }
+        } else {
+            // Jika tidak ada gambar baru, gunakan gambar lama
+            $path = $book->gambar;
+        }
+
+        // Update data buku
+        $book->update([
+            'gambar' => $path,
+            'judul' => $validated['judul'],
+            'penulis' => $validated['penulis'],
+            'deskripsi' => $validated['deskripsi'],
+            'tahun_terbit' => $validated['tahun_terbit'],
+            'status' => $validated['status'],
+        ]);
+
+        // Kirim respons JSON untuk alert JavaScript
+        return redirect()->route('dashboard.books')->with('success', 'Buku berhasil diperbarui!');
+    }
+
+
     public function delete($id)
     {
         $book = Book::find($id);

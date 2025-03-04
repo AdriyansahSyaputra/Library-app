@@ -22,7 +22,7 @@ class FormAddBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gambar' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'judul' => ['required', 'string', 'max:255'],
             'penulis' => ['required', 'string', 'max:255'],
             'deskripsi' => ['required', 'string', 'max:255'],

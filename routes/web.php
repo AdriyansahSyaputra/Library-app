@@ -36,7 +36,8 @@ Route::middleware('auth')->controller(BookController::class)->group(function () 
     Route::get('/dashboard/books', 'index')->name('dashboard.books');
     Route::post('/dashboard/books', 'store');
     Route::delete('/dashboard/books/{id}', 'delete');
-});
+    Route::put('/dashboard/books/{id}', 'update');
+}); 
 
 Route::middleware('auth')->controller(UserController::class)->group(function () {
     Route::get('/dashboard/users', 'index')->name('dashboard.users');

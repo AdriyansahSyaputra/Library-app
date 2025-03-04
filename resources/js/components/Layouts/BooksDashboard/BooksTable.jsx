@@ -8,6 +8,7 @@ const BooksTable = ({
     isDropdownOpen,
     toggleDropdown,
     handleDeleteBook,
+    setSelectedBook,
 }) => {
     return (
         <div
@@ -117,7 +118,7 @@ const BooksTable = ({
                                                 top: "100%",
                                             }}
                                         >
-                                            <button className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
+                                            <button onClick={() => setSelectedBook(book)} className="w-full flex items-center space-x-2 p-2 hover:bg-gray-600 rounded-lg">
                                                 <Edit size={16} />
                                                 <span>Edit</span>
                                             </button>
