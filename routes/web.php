@@ -12,7 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Client\MyLibraryController;
 
 // Route for Client
-Route::middleware('auth')->controller(HomeController::class)->group(function () {
+Route::middleware(['auth', 'role:user'])->controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('/book/{slug}', 'showDetail')->name('book.detail');
     Route::post('/book', 'borrow')->name('book.borrow');
@@ -20,9 +20,9 @@ Route::middleware('auth')->controller(HomeController::class)->group(function () 
 
 Route::get('/book', function () {
     return Inertia::render('Client/BookDetail');
-});
+})->middleware(['auth', 'role:user'])->name('book.detail');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/my-library', [MyLibraryController::class, 'index'])->name('my-library');
     Route::delete('/api/borrow/{id}', [MyLibraryController::class, 'returnBook'])->name('my-library.return');
 });
@@ -30,25 +30,25 @@ Route::middleware('auth')->group(function () {
 // Route for Admin
 Route::get('/dashboard', function () {
     return Inertia::render('Admin/Dashboard');
-})->middleware('auth')->name('dashboard');
+})->middleware(['auth', 'role:admin'])->name('dashboard');
 
-Route::middleware('auth')->controller(BookController::class)->group(function () {
+Route::middleware(['auth', 'role:admin'])->controller(BookController::class)->group(function () {
     Route::get('/dashboard/books', 'index')->name('dashboard.books');
     Route::post('/dashboard/books', 'store');
     Route::delete('/dashboard/books/{id}', 'delete');
     Route::put('/dashboard/books/{id}', 'update');
 }); 
 
-Route::middleware('auth')->controller(UserController::class)->group(function () {
+Route::middleware(['auth', 'role:admin'])->controller(UserController::class)->group(function () {
     Route::get('/dashboard/users', 'index')->name('dashboard.users');
 });
 
-Route::middleware('auth')->controller(BorrowController::class)->group(function () {
+Route::middleware(['auth', 'role:admin'])->controller(BorrowController::class)->group(function () {
     Route::get('/dashboard/borrows', 'index')->name('dashboard.borrows');
     Route::get('/dashboard/borrowing/filter', [BorrowController::class, 'searchAndFilter']);
 });
 
-Route::middleware('auth')->controller(DelayController::class)->group(function () {
+Route::middleware(['auth', 'role:admin'])->controller(DelayController::class)->group(function () {
     Route::get('/dashboard/delays', 'index')->name('dashboard.delays');
 });
 
