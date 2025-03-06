@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { X, Calendar, User, BookOpen, BadgeCheck, CircleX } from "lucide-react";
 import { useForm } from "@inertiajs/react";
+import PropTypes from "prop-types";
 
-const FormBorrow = ({ book, onClose }) => {
+const FormBorrow = ({ book, setIsModalOpen, setShowAlert }) => {
     const { data, setData, post, processing } = useForm({
         book_id: book.id,
         tanggal_pinjam: "",
@@ -16,15 +17,14 @@ const FormBorrow = ({ book, onClose }) => {
     const handlePinjam = (e) => {
         e.preventDefault();
 
-        if (data.tanggal_kembali < data.tanggal_pinjam) {
+        if (new Date(data.tanggal_kembali) < new Date(data.tanggal_pinjam)) {
             alert("Tanggal kembali tidak valid!");
             return;
         }
 
         post("/book", {
             onSuccess: () => {
-                alert("Buku berhasil dipinjam!");
-                window.location.href = "/my-library"; // Redirect ke halaman "my-library"
+                setShowAlert(true);
             },
             onError: () => {
                 alert(
@@ -50,7 +50,7 @@ const FormBorrow = ({ book, onClose }) => {
                 <div className="w-2/3 p-8 relative">
                     {/* Tombol Close */}
                     <button
-                        onClick={onClose}
+                        onClick={() => setIsModalOpen(false)}
                         className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
                     >
                         <X size={20} />
@@ -128,7 +128,7 @@ const FormBorrow = ({ book, onClose }) => {
                         {/* Tombol Kembali dan Pinjam */}
                         <div className="flex justify-between mt-8">
                             <button
-                                onClick={onClose}
+                                onClick={() => setIsModalOpen(false)}
                                 type="button"
                                 className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
                             >
@@ -150,3 +150,9 @@ const FormBorrow = ({ book, onClose }) => {
 };
 
 export default FormBorrow;
+
+FormBorrow.propTypes = {
+    book: PropTypes.object.isRequired,
+    setShowAlert: PropTypes.func.isRequired,
+    setIsModalOpen: PropTypes.func.isRequired,
+};

@@ -37,7 +37,7 @@ Route::middleware(['auth', 'role:admin'])->controller(BookController::class)->gr
     Route::post('/dashboard/books', 'store');
     Route::delete('/dashboard/books/{id}', 'delete');
     Route::put('/dashboard/books/{id}', 'update');
-}); 
+});
 
 Route::middleware(['auth', 'role:admin'])->controller(UserController::class)->group(function () {
     Route::get('/dashboard/users', 'index')->name('dashboard.users');

@@ -63,6 +63,6 @@ class HomeController extends Controller
             'status' => 'dipinjam',
         ]);
 
-        return redirect()->back()->with('success', 'Buku berhasil dipinjam!');
+        return redirect()->route('home')->with('success', 'Buku berhasil dipinjam!');
     }
 }

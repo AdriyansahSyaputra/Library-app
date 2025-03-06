@@ -100,7 +100,7 @@ class BookController extends Controller
             'status' => $validated['status'],
         ]);
 
-        // Kirim respons JSON untuk alert JavaScript
+       
         return redirect()->route('dashboard.books')->with('success', 'Buku berhasil diperbarui!');
     }
 

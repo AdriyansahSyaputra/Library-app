@@ -1,21 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Star, ArrowLeft, BadgeCheck, CircleX } from "lucide-react";
 import PropTypes from "prop-types";
-import FormBorrow from "../../Fragments/FormBorrow";
 
-const BookDetail = ({ book }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedBook, setSelectedBook] = useState(null);
-
+const BookDetail = ({ book, handleOpenModal }) => {
     // Fungsi untuk navigasi kembali
     const handleBack = () => {
         window.history.back();
-    };
-
-    // Fungsi untuk membuka modal
-    const handleOpenModal = () => {
-        setSelectedBook(book);
-        setIsModalOpen(true);
     };
 
     return (
@@ -99,14 +89,6 @@ const BookDetail = ({ book }) => {
                     </div>
                 </div>
             </div>
-
-            {/* Modal Pinjam Buku */}
-            {isModalOpen && (
-                <FormBorrow
-                    book={selectedBook}
-                    onClose={() => setIsModalOpen(false)}
-                />
-            )}
         </>
     );
 };
@@ -115,4 +97,5 @@ export default BookDetail;
 
 BookDetail.propTypes = {
     book: PropTypes.object.isRequired,
+    handleOpenModal: PropTypes.func.isRequired,
 };
