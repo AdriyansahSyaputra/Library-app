@@ -9,7 +9,7 @@ import FormModal from "../../components/Layouts/BooksDashboard/FormModal";
 import Alert from "../../components/Fragments/Alert";
 import UpdateBookModal from "../../components/Layouts/BooksDashboard/UpdateBookModal";
 
-const Books = ({ books, filters }) => {
+const Books = ({ books, filters = { year: "", status: "" } }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [isDropdownOpen, setIsDropdownOpen] = useState(null);

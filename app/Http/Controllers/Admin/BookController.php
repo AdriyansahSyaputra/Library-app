@@ -120,8 +120,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return Inertia::render('Admin/Books', [
-            'books' => Book::all()
-        ]);
+        return redirect()->route('dashboard.books');
     }
 }

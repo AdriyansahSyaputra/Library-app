@@ -44,10 +44,7 @@ class HomeController extends Controller
         $book = Book::find($request->input('book_id'));
 
         if ($book->status !== 'tersedia') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Buku tidak tersedia untuk dipinjam.',
-            ], 400);
+            return redirect()->back()->withErrors(['error' => 'Buku tidak tersedia.']);
         }
 
         // Ubah status buku menjadi dipinjam

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../../components/templates/client/Sidebar";
 import Topbar from "../../components/templates/client/Topbar";
 import BookDetail from "../../components/Layouts/BookDetail/BookDetail";
-import FormBorrow from "../../components/Fragments/FormBorrow";
+import ModalBorrow from "../../components/Layouts/BookDetail/ModalBorrow";
 
 const BookDetailPage = ({ book }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -42,11 +42,7 @@ const BookDetailPage = ({ book }) => {
 
             {/* Modal Pinjam Buku */}
             {isModalOpen && (
-                <FormBorrow
-                    book={selectedBook}
-                    setIsModalOpen={setIsModalOpen}
-                    setShowAlert={setShowAlert}
-                />
+                <ModalBorrow book={selectedBook} setIsModalOpen={setIsModalOpen} setShowAlert={setShowAlert} />
             )}
         </>
     );
