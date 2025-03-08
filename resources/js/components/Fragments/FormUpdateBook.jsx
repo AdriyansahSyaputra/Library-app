@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Save } from "lucide-react";
 import { useForm } from "@inertiajs/react";
+import Label from "../Elements/input/Label";
+import Input from "../Elements/input/Input";
+import { LetterText, Signature } from "lucide-react";
 
 const FormUpdateBook = ({
     book,
@@ -44,7 +47,6 @@ const FormUpdateBook = ({
 
                 // Show success alert
                 setShowAlert(true);
-
             },
             // Handle potential errors
             onError: (errors) => {
@@ -55,25 +57,26 @@ const FormUpdateBook = ({
 
     return (
         <>
-
             <form onSubmit={handleSubmit}>
                 {/* Input Judul */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                        Judul
-                    </label>
-                    <input
-                        type="text"
-                        name="judul"
-                        value={data.judul}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                            isDarkMode
-                                ? "bg-gray-700 border-gray-600 focus:ring-blue-500 text-white"
-                                : "bg-white border-gray-300 focus:ring-blue-500 text-gray-900"
-                        }`}
-                        required
-                    />
+                    <Label htmlFor="judul" label="Judul" />
+                    <div className="relative">
+                        <LetterText
+                            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
+                                isDarkMode ? "text-gray-400" : "text-gray-500"
+                            }`}
+                            size={20}
+                        />
+                        <Input
+                            type="text"
+                            id="judul"
+                            name="judul"
+                            value={data.judul}
+                            onChange={handleChange}
+                            isDarkMode={isDarkMode}
+                        />
+                    </div>
                     {errors.judul && (
                         <p className="text-red-500 text-xs mt-1">
                             {errors.judul}
@@ -83,21 +86,23 @@ const FormUpdateBook = ({
 
                 {/* Input Penulis */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                        Penulis
-                    </label>
-                    <input
-                        type="text"
-                        name="penulis"
-                        value={data.penulis}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                            isDarkMode
-                                ? "bg-gray-700 border-gray-600 focus:ring-blue-500 text-white"
-                                : "bg-white border-gray-300 focus:ring-blue-500 text-gray-900"
-                        }`}
-                        required
-                    />
+                    <Label htmlFor="penulis" label="Penulis" />
+                    <div className="relative">
+                        <Signature
+                            className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
+                                isDarkMode ? "text-gray-400" : "text-gray-500"
+                            }`}
+                            size={20}
+                        />
+                        <Input
+                            type="text"
+                            id="penulis"
+                            name="penulis"
+                            value={data.penulis}
+                            onChange={handleChange}
+                            isDarkMode={isDarkMode}
+                        />
+                    </div>
                     {errors.penulis && (
                         <p className="text-red-500 text-xs mt-1">
                             {errors.penulis}
@@ -107,9 +112,7 @@ const FormUpdateBook = ({
 
                 {/* Input Deskripsi */}
                 <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                        Deskripsi
-                    </label>
+                    <Label htmlFor="deskripsi" label="Deskripsi" />
                     <textarea
                         name="deskripsi"
                         value={data.deskripsi}
