@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import {
     House,
     BookText,
@@ -39,26 +39,42 @@ const menuItems = [
     },
 ];
 
-const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
     const { url } = usePage();
     const [activeItem, setActiveItem] = useState(url);
 
     return (
         <>
             <aside
-                className={`bg-white h-screen border-r shadow-sm inset-y-0 fixed flex flex-col ${
+                className={`h-screen border-r shadow-sm inset-y-0 fixed flex flex-col ${
                     isSidebarOpen ? "w-60" : "w-20"
-                } `}
+                } ${
+                    isDarkMode
+                        ? "bg-gray-900 text-white"
+                        : "bg-white text-gray-900"
+                }`}
             >
                 <div className="w-full flex items-center justify-between p-4 border-b">
                     {isSidebarOpen && (
-                        <h1 className="text-xl font-bold text-indigo-600">
+                        <h1
+                            className={`text-xl font-bold ${
+                                isDarkMode
+                                    ? "text-indigo-400"
+                                    : "text-indigo-600"
+                            }`}
+                        >
                             Library Apps
                         </h1>
                     )}
                     {!isSidebarOpen && (
                         <div className="mx-auto">
-                            <h1 className="text-xl font-bold text-indigo-600">
+                            <h1
+                                className={`text-xl font-bold ${
+                                    isDarkMode
+                                        ? "text-indigo-400"
+                                        : "text-indigo-600"
+                                }`}
+                            >
                                 <LibraryBig size={20} />
                             </h1>
                         </div>
@@ -67,7 +83,11 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                     {/* Tombol Chevron untuk buka/tutup sidebar */}
                     <button
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-2 rounded-full hover:bg-gray-100 text-gray-600 transition-all"
+                        className={`p-2 rounded-full ${
+                            isDarkMode
+                                ? "hover:bg-gray-700 text-gray-300"
+                                : "hover:bg-gray-100 text-gray-600"
+                        } transition-all`}
                     >
                         {isSidebarOpen ? (
                             <ChevronLeft className="w-5 h-5" />
@@ -91,14 +111,22 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                         : "justify-center"
                                 } gap-3 px-2 py-3 rounded-lg transition-all duration-200 ${
                                     activeItem === item.link
-                                        ? "text-slate-800"
+                                        ? isDarkMode
+                                            ? "bg-indigo-700 text-white"
+                                            : "bg-indigo-600 text-white"
+                                        : isDarkMode
+                                        ? "text-gray-300 hover:bg-gray-700 hover:text-white"
                                         : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                                 }`}
                             >
                                 <div
                                     className={`p-2 rounded-lg ${
                                         activeItem === item.link
-                                            ? "bg-indigo-600 text-white"
+                                            ? isDarkMode
+                                                ? "bg-indigo-800 text-white"
+                                                : "bg-indigo-700 text-white"
+                                            : isDarkMode
+                                            ? "bg-gray-800 text-gray-300"
                                             : "bg-gray-100 text-gray-500"
                                     }`}
                                 >

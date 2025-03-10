@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm, usePage } from "@inertiajs/react";
 import PropTypes from "prop-types";
 
-const FormBorrow = ({ book, setIsModalOpen, setShowAlert }) => {
-    const [isDarkMode, setIsDarkMode] = useState(true);
+const FormBorrow = ({ book, setIsModalOpen, setShowAlert, isDarkMode }) => {
     const { errors } = usePage().props;
     const [showErrorAlert, setShowErrorAlert] = useState(false);
 

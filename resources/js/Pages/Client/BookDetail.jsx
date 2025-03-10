@@ -9,6 +9,7 @@ const BookDetailPage = ({ book }) => {
     const [showAlert, setShowAlert] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBook, setSelectedBook] = useState(null);
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     // Fungsi untuk membuka modal
     const handleOpenModal = () => {
@@ -16,12 +17,23 @@ const BookDetailPage = ({ book }) => {
         setIsModalOpen(true);
     };
 
+    const toggleDarkMode = () => {
+        setIsDarkMode(!isDarkMode);
+    };
+
     return (
         <>
-            <div className="max-h-screen w-full flex">
+            <div
+                className={`max-h-screen w-full flex ${
+                    isDarkMode
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-gray-900"
+                }`}
+            >
                 <Sidebar
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
+                    isDarkMode={isDarkMode}
                 />
 
                 <div
@@ -29,12 +41,16 @@ const BookDetailPage = ({ book }) => {
                         isSidebarOpen ? "pl-60" : "pl-20"
                     }`}
                 >
-                    <Topbar />
+                    <Topbar
+                        isDarkMode={isDarkMode}
+                        toggleDarkMode={toggleDarkMode}
+                    />
 
                     <main className="p-6 max-w-screen-xl flex md:my-16">
                         <BookDetail
                             book={book}
                             handleOpenModal={handleOpenModal}
+                            isDarkMode={isDarkMode}
                         />
                     </main>
                 </div>
@@ -42,7 +58,12 @@ const BookDetailPage = ({ book }) => {
 
             {/* Modal Pinjam Buku */}
             {isModalOpen && (
-                <ModalBorrow book={selectedBook} setIsModalOpen={setIsModalOpen} setShowAlert={setShowAlert} />
+                <ModalBorrow
+                    book={selectedBook}
+                    setIsModalOpen={setIsModalOpen}
+                    setShowAlert={setShowAlert}
+                    isDarkMode={isDarkMode}
+                />
             )}
         </>
     );

@@ -21,6 +21,10 @@ const Home = ({ books }) => {
         }
     }, [flash.success]);
 
+    const toggleDarkMode = () => {
+        setIsDarkMode(!isDarkMode);
+    };
+
     return (
         <>
             {showAlert && (
@@ -35,10 +39,17 @@ const Home = ({ books }) => {
                 </div>
             )}
 
-            <div className="max-h-screen w-full flex">
+            <div
+                    className={`h-screen w-full flex ${
+                        isDarkMode
+                            ? "bg-gray-800 text-white"
+                            : "bg-gray-100 text-gray-900"
+                    }`}
+            >
                 <Sidebar
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
+                    isDarkMode={isDarkMode}
                 />
 
                 <div
@@ -46,10 +57,13 @@ const Home = ({ books }) => {
                         isSidebarOpen ? "pl-60" : "pl-20"
                     }`}
                 >
-                    <Topbar />
+                    <Topbar
+                        toggleDarkMode={toggleDarkMode}
+                        isDarkMode={isDarkMode}
+                    />
 
                     <main className="p-6 max-w-screen-xl mx-auto">
-                        <BooksView books={books} />
+                        <BooksView books={books} isDarkMode={isDarkMode} />
                     </main>
                 </div>
             </div>

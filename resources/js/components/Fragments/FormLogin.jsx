@@ -95,6 +95,7 @@ const FormLogin = ({ isDarkMode }) => {
                     <input
                         type="checkbox"
                         id="rememberMe"
+                        name="remember"
                         checked={rememberMe}
                         onChange={(e) => setRememberMe(e.target.checked)}
                         className={`mr-2 rounded ${

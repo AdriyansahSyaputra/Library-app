@@ -12,6 +12,11 @@ const MyLibrary = ({ borrowedBooks }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alert, setAlert] = useState(false);
     const [books, setBooks] = useState(borrowedBooks);
+    const [isDarkMode, setIsDarkMode] = useState(true);
+
+    const toggleDarkMode = () => {
+        setIsDarkMode(!isDarkMode);
+    };
 
     const openModal = (book) => {
         setSelectedBook(book);
@@ -71,10 +76,17 @@ const MyLibrary = ({ borrowedBooks }) => {
                 />
             )}
 
-            <div className="max-h-screen w-full flex">
+            <div
+                className={`max-h-screen w-full flex ${
+                    isDarkMode
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-gray-900"
+                }`}
+            >
                 <Sidebar
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
+                    isDarkMode={isDarkMode}
                 />
 
                 <div
@@ -82,7 +94,10 @@ const MyLibrary = ({ borrowedBooks }) => {
                         isSidebarOpen ? "pl-60" : "pl-20"
                     }`}
                 >
-                    <Topbar />
+                    <Topbar
+                        isDarkMode={isDarkMode}
+                        toggleDarkMode={toggleDarkMode}
+                    />
 
                     <main className="p-6 max-w-screen-xl mx-auto">
                         <h1 className="text-2xl font-semibold mb-6">
@@ -92,6 +107,7 @@ const MyLibrary = ({ borrowedBooks }) => {
                             <CardBookBorrow
                                 borrowedBooks={books}
                                 openModal={openModal}
+                                isDarkMode={isDarkMode}
                             />
                         </div>
 
@@ -100,6 +116,7 @@ const MyLibrary = ({ borrowedBooks }) => {
                                 selectedBook={selectedBook}
                                 closeModal={closeModal}
                                 handleReturnBook={handleReturnBook}
+                                isDarkMode={isDarkMode}
                             />
                         )}
                     </main>

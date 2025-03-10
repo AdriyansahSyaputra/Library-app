@@ -3,10 +3,14 @@ import { ChevronRight } from "lucide-react";
 import CardBook from "../../Fragments/CardBook";
 import PropTypes from "prop-types";
 
-const BooksView = ({ books }) => {
+const BooksView = ({ books, isDarkMode }) => {
     return (
         <>
-            <div className="w-full h-full bg-white rounded-lg shadow-md px-4 py-6">
+            <div
+                className={`w-full h-full rounded-lg shadow-md px-4 py-6 ${
+                    isDarkMode ? "bg-gray-800" : "bg-white"
+                }`}
+            >
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>

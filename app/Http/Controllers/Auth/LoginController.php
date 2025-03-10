@@ -23,7 +23,9 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        $remember = $request->has('remember') ? true : false;
+
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             // Pastikan user sudah login sebelum memeriksa email
