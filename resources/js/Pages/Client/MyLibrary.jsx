@@ -77,7 +77,7 @@ const MyLibrary = ({ borrowedBooks }) => {
             )}
 
             <div
-                className={`max-h-screen w-full flex ${
+                className={`min-h-screen w-full flex ${
                     isDarkMode
                         ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-gray-900"

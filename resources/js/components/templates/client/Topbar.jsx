@@ -98,39 +98,89 @@ const Topbar = ({ toggleDarkMode, isDarkMode }) => {
                                 <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                             </button>
 
-                            {showNotifications && <ShowNotification isDarkMode={isDarkMode}/>}
+                            {showNotifications && (
+                                <ShowNotification isDarkMode={isDarkMode} />
+                            )}
                         </div>
                     </div>
+                </div>
+                {/* Line Vertical */}
+                <div
+                    className={`w-px h-8 mx-4 hidden md:block ${
+                        isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                    }`}
+                ></div>
 
-                    {/* Line Vertical */}
-                    <div
-                        className={`w-px h-8 mx-4 hidden md:block ${
-                            isDarkMode ? "bg-gray-700" : "bg-gray-200"
-                        }`}
-                    ></div>
+                {/* Profile Account */}
+                {auth.user && (
+                    <div className="relative" ref={profileRef}>
+                        <button
+                            className={`flex items-center gap-3 rounded-lg transition-colors p-2 ${
+                                isDarkMode
+                                    ? "hover:bg-gray-700"
+                                    : "hover:bg-gray-50"
+                            }`}
+                            onClick={() =>
+                                setShowProfileDropdown(!showProfileDropdown)
+                            }
+                        >
+                            <div className="w-8 h-8 rounded-full bg-indigo-100 overflow-hidden flex items-center justify-center">
+                                <img
+                                    src="/assets/img/default.jpg"
+                                    alt={auth.user.name}
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="hidden md:block text-left max-w-xs md:max-w-sm">
+                                <p
+                                    className={`text-sm font-medium ${
+                                        isDarkMode
+                                            ? "text-gray-200"
+                                            : "text-gray-700"
+                                    } whitespace-nowrap overflow-hidden text-ellipsis`}
+                                    title={auth.user.name}
+                                >
+                                    {auth.user.name}
+                                </p>
+                                <p
+                                    className={`text-xs ${
+                                        isDarkMode
+                                            ? "text-gray-400"
+                                            : "text-gray-500"
+                                    } whitespace-nowrap overflow-hidden text-ellipsis`}
+                                >
+                                    {auth.user.jurusan || auth.user.email}
+                                </p>
+                            </div>
+                            {showProfileDropdown ? (
+                                <ChevronUp
+                                    className={`w-4 h-4 ${
+                                        isDarkMode
+                                            ? "text-gray-400"
+                                            : "text-gray-500"
+                                    }`}
+                                />
+                            ) : (
+                                <ChevronDown
+                                    className={`w-4 h-4 ${
+                                        isDarkMode
+                                            ? "text-gray-400"
+                                            : "text-gray-500"
+                                    }`}
+                                />
+                            )}
+                        </button>
 
-                    {/* Profile Account */}
-                    {auth.user && (
-                        <div className="relative" ref={profileRef}>
-                            <button
-                                className={`flex items-center gap-3 rounded-lg transition-colors p-2 ${
+                        {showProfileDropdown && (
+                            <div
+                                className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg py-2 border ${
                                     isDarkMode
-                                        ? "hover:bg-gray-700"
-                                        : "hover:bg-gray-50"
+                                        ? "bg-gray-800 border-gray-700"
+                                        : "bg-white border-gray-100"
                                 }`}
-                                onClick={() =>
-                                    setShowProfileDropdown(!showProfileDropdown)
-                                }
                             >
-                                <div className="w-8 h-8 rounded-full bg-indigo-100 overflow-hidden flex items-center justify-center">
-                                    <img
-                                        src="/assets/img/default.jpg"
-                                        alt={auth.user.name}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                    />
-                                </div>
-                                <div className="hidden md:block text-left max-w-xs md:max-w-sm">
+                                <div className="px-4 py-2 border-b border-gray-100 md:hidden">
                                     <p
                                         className={`text-sm font-medium ${
                                             isDarkMode
@@ -146,126 +196,77 @@ const Topbar = ({ toggleDarkMode, isDarkMode }) => {
                                             isDarkMode
                                                 ? "text-gray-400"
                                                 : "text-gray-500"
-                                        } whitespace-nowrap overflow-hidden text-ellipsis`}
+                                        }`}
                                     >
-                                        {auth.user.jurusan || auth.user.email}
+                                        {auth.user.email}
                                     </p>
                                 </div>
-                                {showProfileDropdown ? (
-                                    <ChevronUp
-                                        className={`w-4 h-4 ${
-                                            isDarkMode
-                                                ? "text-gray-400"
-                                                : "text-gray-500"
-                                        }`}
-                                    />
-                                ) : (
-                                    <ChevronDown
-                                        className={`w-4 h-4 ${
-                                            isDarkMode
-                                                ? "text-gray-400"
-                                                : "text-gray-500"
-                                        }`}
-                                    />
-                                )}
-                            </button>
 
-                            {showProfileDropdown && (
-                                <div
-                                    className={`absolute right-0 mt-2 w-56 rounded-lg shadow-lg py-2 border ${
+                                <a
+                                    href="/profile"
+                                    className={`flex items-center gap-3 px-4 py-2 text-sm ${
                                         isDarkMode
-                                            ? "bg-gray-800 border-gray-700"
-                                            : "bg-white border-gray-100"
-                                    }`}
+                                            ? "text-gray-200 hover:bg-gray-700"
+                                            : "text-gray-700 hover:bg-gray-50"
+                                    } transition-colors`}
                                 >
-                                    <div className="px-4 py-2 border-b border-gray-100 md:hidden">
-                                        <p
-                                            className={`text-sm font-medium ${
-                                                isDarkMode
-                                                    ? "text-gray-200"
-                                                    : "text-gray-700"
-                                            } whitespace-nowrap overflow-hidden text-ellipsis`}
-                                            title={auth.user.name}
-                                        >
-                                            {auth.user.name}
-                                        </p>
-                                        <p
-                                            className={`text-xs ${
-                                                isDarkMode
-                                                    ? "text-gray-400"
-                                                    : "text-gray-500"
-                                            }`}
-                                        >
-                                            {auth.user.email}
-                                        </p>
-                                    </div>
-
-                                    <a
-                                        href="/profile"
-                                        className={`flex items-center gap-3 px-4 py-2 text-sm ${
+                                    <User
+                                        className={`w-4 h-4 ${
                                             isDarkMode
-                                                ? "text-gray-200 hover:bg-gray-700"
-                                                : "text-gray-700 hover:bg-gray-50"
-                                        } transition-colors`}
-                                    >
-                                        <User
-                                            className={`w-4 h-4 ${
-                                                isDarkMode
-                                                    ? "text-gray-400"
-                                                    : "text-gray-500"
-                                            }`}
-                                        />
-                                        <span>Profile</span>
-                                    </a>
+                                                ? "text-gray-400"
+                                                : "text-gray-500"
+                                        }`}
+                                    />
+                                    <span>Profile</span>
+                                </a>
 
-                                    <a
-                                        href="/settings"
-                                        className={`flex items-center gap-3 px-4 py-2 text-sm ${
+                                <a
+                                    href="/settings"
+                                    className={`flex items-center gap-3 px-4 py-2 text-sm ${
+                                        isDarkMode
+                                            ? "text-gray-200 hover:bg-gray-700"
+                                            : "text-gray-700 hover:bg-gray-50"
+                                    } transition-colors`}
+                                >
+                                    <Settings
+                                        className={`w-4 h-4 ${
                                             isDarkMode
-                                                ? "text-gray-200 hover:bg-gray-700"
-                                                : "text-gray-700 hover:bg-gray-50"
-                                        } transition-colors`}
-                                    >
-                                        <Settings
-                                            className={`w-4 h-4 ${
-                                                isDarkMode
-                                                    ? "text-gray-400"
-                                                    : "text-gray-500"
-                                            }`}
-                                        />
-                                        <span>Settings</span>
-                                    </a>
+                                                ? "text-gray-400"
+                                                : "text-gray-500"
+                                        }`}
+                                    />
+                                    <span>Settings</span>
+                                </a>
 
-                                    <div
-                                        className={`border-t ${
-                                            isDarkMode
-                                                ? "border-gray-700"
-                                                : "border-gray-100"
-                                        } my-1`}
-                                    ></div>
+                                <div
+                                    className={`border-t ${
+                                        isDarkMode
+                                            ? "border-gray-700"
+                                            : "border-gray-100"
+                                    } my-1`}
+                                ></div>
 
-                                    <button
-                                        onClick={handleLogout}
-                                        className={`w-full flex items-center gap-3 px-4 py-2 text-sm ${
+                                <button
+                                    onClick={handleLogout}
+                                    className={`w-full flex items-center gap-3 px-4 py-2 text-sm ${
+                                        isDarkMode
+                                            ? "text-red-400 hover:bg-red-900"
+                                            : "text-red-600 hover:bg-red-50"
+                                    } transition-colors`}
+                                >
+                                    <LogOut
+                                        className={`w-4 h-4 ${
                                             isDarkMode
-                                                ? "text-red-400 hover:bg-red-900"
-                                                : "text-red-600 hover:bg-red-50"
-                                        } transition-colors`}
-                                    >
-                                        <LogOut
-                                            className={`w-4 h-4 ${
-                                                isDarkMode
-                                                    ? "text-red-400"
-                                                    : "text-red-500"
-                                            }`}
-                                        />
-                                        <span>Logout</span>
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </div>
+                                                ? "text-red-400"
+                                                : "text-red-500"
+                                        }`}
+                                    />
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </header>
         </>
     );

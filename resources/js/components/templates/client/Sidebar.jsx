@@ -46,15 +46,15 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen, isDarkMode }) => {
     return (
         <>
             <aside
-                className={`h-screen border-r shadow-sm inset-y-0 fixed flex flex-col ${
+                className={`h-screen shadow-sm inset-y-0 fixed flex flex-col ${
                     isSidebarOpen ? "w-60" : "w-20"
                 } ${
                     isDarkMode
-                        ? "bg-gray-900 text-white"
-                        : "bg-white text-gray-900"
+                        ? "bg-gray-900 text-white border-r-gray-700"
+                        : "bg-white text-gray-900 border-r-gray-200"
                 }`}
             >
-                <div className="w-full flex items-center justify-between p-4 border-b">
+                <div className={`w-full flex items-center justify-between p-4 ${isDarkMode ? "border-b border-gray-700" : "border-b border-gray-200"}`}>
                     {isSidebarOpen && (
                         <h1
                             className={`text-xl font-bold ${

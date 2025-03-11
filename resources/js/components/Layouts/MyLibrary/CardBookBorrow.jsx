@@ -9,8 +9,8 @@ const CardBookBorrow = ({ borrowedBooks, openModal, isDarkMode }) => {
                     key={book.id}
                     className={`rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col ${
                         isDarkMode
-                            ? "bg-gray-800 text-white"
-                            : "bg-white text-gray-900"
+                            ? "bg-gray-800 text-white shadow-gray-900"
+                            : "bg-white text-gray-900 shadow-gray-200"
                     }`}
                 >
                     <img

@@ -40,11 +40,11 @@ const Home = ({ books }) => {
             )}
 
             <div
-                    className={`h-screen w-full flex ${
-                        isDarkMode
-                            ? "bg-gray-800 text-white"
-                            : "bg-gray-100 text-gray-900"
-                    }`}
+                className={`min-h-screen w-full flex ${
+                    isDarkMode
+                        ? "bg-gray-800 text-white"
+                        : "bg-gray-100 text-gray-900"
+                }`}
             >
                 <Sidebar
                     isSidebarOpen={isSidebarOpen}
